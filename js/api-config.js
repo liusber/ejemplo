@@ -4,7 +4,7 @@
 const API_CONFIG = {
     baseURL: (typeof window !== 'undefined' && window.location.hostname !== 'localhost') 
         ? window.location.origin + '/api'
-        : 'http://localhost:8002/api',
+        : 'http://localhost:8001/api',
     timeout: 30000
 };
 
