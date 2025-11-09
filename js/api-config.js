@@ -2,7 +2,9 @@
  * Configuración global de la API
  */
 const API_CONFIG = {
-    baseURL: 'http://localhost:8002/api',
+    baseURL: (typeof window !== 'undefined' && window.location.hostname !== 'localhost') 
+        ? window.location.origin + '/api'
+        : 'http://localhost:8002/api',
     timeout: 30000
 };
 
