@@ -175,5 +175,58 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="/js/api-config.js"></script>
+    <script src="/js/api-auth.js"></script>
+    <script src="/js/utils.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Si ya está autenticado, redirigir al dashboard
+            if (AuthAPI.isAuthenticated()) {
+                window.location.href = 'dashboard-asesor.html';
+                return;
+            }
+
+            // Manejar submit del formulario
+            $('form').on('submit', function(e) {
+                e.preventDefault();
+                
+                const email = $('#email').val();
+                const password = $('#password').val();
+                const brand = $('#brand').val();
+                
+                if (!email || !password) {
+                    Utils.showError('Por favor completa todos los campos');
+                    return;
+                }
+                
+                Utils.showLoading();
+                
+                AuthAPI.login(email, password)
+                    .done(function(response) {
+                        Utils.hideLoading();
+                        
+                        if (response.success && response.token) {
+                            // Guardar token y datos de usuario
+                            apiClient.setToken(response.token);
+                            AuthAPI.saveUserData(response.user);
+                            
+                            Utils.showSuccess('¡Bienvenido ' + response.user.name + '!');
+                            
+                            // Redirigir al dashboard
+                            setTimeout(function() {
+                                window.location.href = 'dashboard-asesor.html';
+                            }, 500);
+                        } else {
+                            Utils.showError('Error en el login');
+                        }
+                    })
+                    .fail(function(error) {
+                        Utils.hideLoading();
+                        Utils.handleApiError(error);
+                    });
+            });
+        });
+    </script>
 </body>
 </html>
