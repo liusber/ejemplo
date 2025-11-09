@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard General - CRM Automotriz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .top-nav {
+            background: rgb(23, 37, 84);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-synch4 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 0.35rem 1rem;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        .logo-synch4:hover {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+            transform: translateY(-1px);
+        }
+        .logo-synch4 .logo-text {
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            border-radius: 6px;
+            margin: 0 0.15rem;
+            font-size: 0.85rem;
+        }
+        .top-nav .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 0.15rem;
+        }
+        .top-nav .nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .top-nav .nav-link.active {
+            color: white;
+            background: #3b82f6;
+            font-weight: 500;
+        }
+        .stat-card {
+            border-left: 4px solid;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.3);
+            padding: 0.35rem 0.5rem;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        .dropdown-toggle {
+            font-size: 0.9rem;
+        }
+        .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+        }
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            color: white;
+        }
+        .btn-floating-search {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1020;
+        }
+        .btn-floating-search:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg top-nav text-white shadow">
+        <div class="container-fluid" >
+            <a class="navbar-brand text-white" href="dashboard-asesor.html">
+                <img src="logo_syn.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dashboard-general.html">
+                            <i class="bi  bi-speedometer2 d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  " href="dashboard-asesor.html">
+                            <i class="bi bi-person-lines-fill  d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Asesor</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-oportunidades.html">
+                            <i class="bi bi-trophy d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Oportunidades</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-leads-internet.html">
+                            <i class="bi bi-globe d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Leads Internet</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="agenda.html">
+                            <i class="bi bi-calendar-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Agenda</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventario.html">
+                            <i class="bi bi-car-front d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Inventario</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-proceso-venta.html">
+                            <i class="bi bi-cart-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Proceso Venta</small>
+                    </a>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="precios-autos.html">
+                            <i class="bi bi-currency-dollar d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Precios</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="documentos.html">
+                            <i class="bi bi-folder d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Documentos</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-piso-hostess.html">
+                            <i class="bi bi-clipboard-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Hostess</small>
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="d-flex align-items-center text-white">
+
+                    <span class="me-3"><i class="bi bi-bell fs-5"></i></span>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-white text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>Roberto Díaz
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="padding-top:20px">
+        <div class="p-4">
+                    <!-- Filtros de Período -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Período</label>
+                                    <select class="form-select">
+                                        <option>Octubre 2025</option>
+                                        <option>Septiembre 2025</option>
+                                        <option>Agosto 2025</option>
+                                        <option selected>Año 2025</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Ciudad</label>
+                                    <select class="form-select">
+                                        <option selected>Todas</option>
+                                        <option>Puebla</option>
+                                        <option>CDMX</option>
+                                        <option>Guadalajara</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Marca</label>
+                                    <select class="form-select">
+                                        <option selected>Todas</option>
+                                        <option>Honda</option>
+                                        <option>KIA</option>
+                                        <option>Changan</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 d-flex align-items-end">
+                                    <button class="btn btn-primary w-100">
+                                        <i class="bi bi-funnel me-2"></i>Aplicar Filtros
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card border-0 shadow-sm" style="border-left-color: #10b981;">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Ventas Octubre</h6>
+                                    <h2 class="mb-0">42</h2>
+                                    <small class="text-success"><i class="bi bi-arrow-up me-1"></i>+8% vs mes anterior</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card border-0 shadow-sm" style="border-left-color: #3b82f6;">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Ventas Acumuladas 2025</h6>
+                                    <h2 class="mb-0">385</h2>
+                                    <small class="text-muted">Meta anual: 500</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card border-0 shadow-sm" style="border-left-color: #f59e0b;">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Inventario Disponible</h6>
+                                    <h2 class="mb-0">65</h2>
+                                    <small class="text-muted">28 nuevos, 12 demos, 25 seminuevos</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card border-0 shadow-sm" style="border-left-color: #ef4444;">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Oportunidades Activas</h6>
+                                    <h2 class="mb-0">156</h2>
+                                    <small class="text-warning"><i class="bi bi-exclamation-circle me-1"></i>18 calientes</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráficas Principales -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Ventas vs Metas por Ciudad</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="ventasMetasChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Ventas por Modelo (Oct)</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="ventasModeloChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla Estado Inventario -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Estado de Inventario por Ciudad</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Ciudad</th>
+                                                    <th>Marca</th>
+                                                    <th>Disponible</th>
+                                                    <th>Apartado</th>
+                                                    <th>Facturado</th>
+                                                    <th>Total</th>
+                                                    <th>Días Prom. Inv.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td rowspan="3" class="align-middle"><strong>Puebla</strong></td>
+                                                    <td>Honda</td>
+                                                    <td><span class="badge bg-success">15</span></td>
+                                                    <td><span class="badge bg-warning">5</span></td>
+                                                    <td><span class="badge bg-danger">2</span></td>
+                                                    <td>22</td>
+                                                    <td>32 días</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>KIA</td>
+                                                    <td><span class="badge bg-success">12</span></td>
+                                                    <td><span class="badge bg-warning">3</span></td>
+                                                    <td><span class="badge bg-danger">1</span></td>
+                                                    <td>16</td>
+                                                    <td>28 días</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Changan</td>
+                                                    <td><span class="badge bg-success">8</span></td>
+                                                    <td><span class="badge bg-warning">2</span></td>
+                                                    <td><span class="badge bg-danger">1</span></td>
+                                                    <td>11</td>
+                                                    <td>25 días</td>
+                                                </tr>
+                                                <tr>
+                                                    <td rowspan="3" class="align-middle"><strong>CDMX</strong></td>
+                                                    <td>Honda</td>
+                                                    <td><span class="badge bg-success">18</span></td>
+                                                    <td><span class="badge bg-warning">4</span></td>
+                                                    <td><span class="badge bg-danger">3</span></td>
+                                                    <td>25</td>
+                                                    <td>28 días</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>KIA</td>
+                                                    <td><span class="badge bg-success">14</span></td>
+                                                    <td><span class="badge bg-warning">6</span></td>
+                                                    <td><span class="badge bg-danger">2</span></td>
+                                                    <td>22</td>
+                                                    <td>30 días</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Changan</td>
+                                                    <td><span class="badge bg-success">10</span></td>
+                                                    <td><span class="badge bg-warning">3</span></td>
+                                                    <td><span class="badge bg-danger">1</span></td>
+                                                    <td>14</td>
+                                                    <td>22 días</td>
+                                                </tr>
+                                                <tr>
+                                                    <td rowspan="3" class="align-middle"><strong>Guadalajara</strong></td>
+                                                    <td>Honda</td>
+                                                    <td><span class="badge bg-success">13</span></td>
+                                                    <td><span class="badge bg-warning">4</span></td>
+                                                    <td><span class="badge bg-danger">2</span></td>
+                                                    <td>19</td>
+                                                    <td>35 días</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>KIA</td>
+                                                    <td><span class="badge bg-success">11</span></td>
+                                                    <td><span class="badge bg-warning">3</span></td>
+                                                    <td><span class="badge bg-danger">1</span></td>
+                                                    <td>15</td>
+                                                    <td>33 días</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Changan</td>
+                                                    <td><span class="badge bg-success">7</span></td>
+                                                    <td><span class="badge bg-warning">2</span></td>
+                                                    <td><span class="badge bg-danger">0</span></td>
+                                                    <td>9</td>
+                                                    <td>27 días</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráficas de Ventas por Asesor -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Top 10 Asesores - Octubre</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="asesorMesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Top 10 Asesores - Acumulado 2025</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="asesorAcumuladoChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <button class="btn-floating-search" data-bs-toggle="modal" data-bs-target="#searchModal" title="Buscar contacto">
+        <i class="bi bi-search"></i>
+    </button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const contactos = [
+            { id: 1, nombre: "María González", telefono: "222-123-4567", email: "maria.gonzalez@email.com", ciudad: "Puebla", interes: "Honda CR-V Touring 2024", asesor: "Juan Pérez" },
+            { id: 2, nombre: "Carlos Ramírez", telefono: "222-234-5678", email: "carlos.ramirez@email.com", ciudad: "Puebla", interes: "KIA Sportage EX 2024", asesor: "Juan Pérez" },
+            { id: 3, nombre: "Ana Martínez", telefono: "555-345-6789", email: "ana.martinez@email.com", ciudad: "CDMX", interes: "Mazda CX-5 Grand Touring 2024", asesor: "María López" },
+            { id: 4, nombre: "Pedro López", telefono: "333-456-7890", email: "pedro.lopez@email.com", ciudad: "Guadalajara", interes: "Toyota RAV4 Limited 2024", asesor: "Carlos Gómez" },
+            { id: 5, nombre: "Laura Sánchez", telefono: "222-567-8901", email: "laura.sanchez@email.com", ciudad: "Puebla", interes: "Changan CS35 Plus Elite 2024", asesor: "Juan Pérez" },
+            { id: 6, nombre: "Roberto Díaz", telefono: "555-678-9012", email: "roberto.diaz@email.com", ciudad: "CDMX", interes: "Nissan Kicks Exclusive 2024", asesor: "María López" }
+        ];
+        function searchContacts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('searchResults');
+            if (searchTerm === '') {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-search fs-1"></i><p class="mt-3">Ingresa un nombre, teléfono o correo para buscar</p></div>';
+                return;
+            }
+            const results = contactos.filter(contacto => contacto.nombre.toLowerCase().includes(searchTerm) || contacto.telefono.includes(searchTerm) || contacto.email.toLowerCase().includes(searchTerm));
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-inbox fs-1"></i><p class="mt-3">No se encontraron contactos</p></div>';
+                return;
+            }
+            let html = '<div class="table-responsive"><table class="table table-hover"><thead class="table-light"><tr><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Ciudad</th><th>Interés</th><th>Asesor</th><th>Acción</th></tr></thead><tbody>';
+            results.forEach(contacto => {
+                html += '<tr><td><strong>' + contacto.nombre + '</strong></td><td><i class="bi bi-telephone me-1"></i>' + contacto.telefono + '</td><td><i class="bi bi-envelope me-1"></i>' + contacto.email + '</td><td><i class="bi bi-geo-alt me-1"></i>' + contacto.ciudad + '</td><td><small>' + contacto.interes + '</small></td><td><small>' + contacto.asesor + '</small></td><td><a href="bitacora-contacto.html?contacto=' + contacto.id + '" class="btn btn-sm btn-primary"><i class="bi bi-journal-text me-1"></i>Ver Bitácora</a></td></tr>';
+            });
+            html += '</tbody></table></div>';
+            resultsDiv.innerHTML = html;
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') { searchContacts(); }
+                });
+            }
+        });
+    </script>
+    <script>
+        // Ventas vs Metas por Ciudad
+        const ctxVentasMetas = document.getElementById('ventasMetasChart').getContext('2d');
+        new Chart(ctxVentasMetas, {
+            type: 'bar',
+            data: {
+                labels: ['Puebla', 'CDMX', 'Guadalajara'],
+                datasets: [{
+                    label: 'Ventas Octubre',
+                    data: [15, 18, 9],
+                    backgroundColor: 'rgba(59, 130, 246, 0.8)'
+                }, {
+                    label: 'Meta Octubre',
+                    data: [18, 20, 12],
+                    backgroundColor: 'rgba(239, 68, 68, 0.8)'
+                }, {
+                    label: 'Ventas Acumuladas',
+                    data: [135, 152, 98],
+                    backgroundColor: 'rgba(16, 185, 129, 0.8)'
+                }, {
+                    label: 'Meta Anual',
+                    data: [180, 200, 120],
+                    backgroundColor: 'rgba(245, 158, 11, 0.8)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Ventas por Modelo
+        const ctxModelo = document.getElementById('ventasModeloChart').getContext('2d');
+        new Chart(ctxModelo, {
+            type: 'doughnut',
+            data: {
+                labels: ['CR-V', 'Civic', 'Sportage', 'CS35 Plus', 'Accord', 'Otros'],
+                datasets: [{
+                    data: [12, 9, 8, 5, 4, 4],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(156, 163, 175, 0.8)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Top Asesores Mes
+        const ctxAsesorMes = document.getElementById('asesorMesChart').getContext('2d');
+        new Chart(ctxAsesorMes, {
+            type: 'bar',
+            data: {
+                labels: ['Juan P.', 'María L.', 'Carlos G.', 'Ana R.', 'Pedro M.', 'Laura S.', 'Roberto H.', 'Sofia R.', 'Luis T.', 'Diana F.'],
+                datasets: [{
+                    label: 'Ventas Octubre',
+                    data: [8, 7, 6, 5, 4, 4, 3, 2, 2, 1],
+                    backgroundColor: 'rgba(16, 185, 129, 0.8)'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Top Asesores Acumulado
+        const ctxAsesorAcum = document.getElementById('asesorAcumuladoChart').getContext('2d');
+        new Chart(ctxAsesorAcum, {
+            type: 'bar',
+            data: {
+                labels: ['Juan P.', 'María L.', 'Carlos G.', 'Ana R.', 'Pedro M.', 'Laura S.', 'Roberto H.', 'Sofia R.', 'Luis T.', 'Diana F.'],
+                datasets: [{
+                    label: 'Ventas 2025',
+                    data: [65, 58, 52, 48, 42, 38, 35, 22, 15, 10],
+                    backgroundColor: 'rgba(59, 130, 246, 0.8)'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Ajustar altura de los canvas
+        document.getElementById('ventasMetasChart').style.height = '300px';
+        document.getElementById('asesorMesChart').style.height = '400px';
+        document.getElementById('asesorAcumuladoChart').style.height = '400px';
+    </script>
+</body>
+</html>

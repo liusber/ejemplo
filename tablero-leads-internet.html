@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Leads Internet - CRM Automotriz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .top-nav {
+            background: rgb(23, 37, 84);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-synch4 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 0.35rem 1rem;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        .logo-synch4:hover {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+            transform: translateY(-1px);
+        }
+        .logo-synch4 .logo-text {
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            border-radius: 6px;
+            margin: 0 0.15rem;
+            font-size: 0.85rem;
+        }
+        .top-nav .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 0.15rem;
+        }
+        .top-nav .nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .top-nav .nav-link.active {
+            color: white;
+            background: #3b82f6;
+            font-weight: 500;
+        }
+        .stat-card {
+            border-left: 4px solid;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.3);
+            padding: 0.35rem 0.5rem;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        .dropdown-toggle {
+            font-size: 0.9rem;
+        }
+        .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+        }
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            color: white;
+        }
+        .btn-floating-search {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1020;
+        }
+        .btn-floating-search:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg top-nav text-white shadow">
+        <div class="container-fluid" >
+            <a class="navbar-brand text-white" href="dashboard-asesor.html">
+                <img src="logo_syn.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-general.html">
+                            <i class="bi  bi-speedometer2 d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  " href="dashboard-asesor.html">
+                            <i class="bi bi-person-lines-fill  d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Asesor</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-oportunidades.html">
+                            <i class="bi bi-trophy d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Oportunidades</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="tablero-leads-internet.html">
+                            <i class="bi bi-globe d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Leads Internet</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="agenda.html">
+                            <i class="bi bi-calendar-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Agenda</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventario.html">
+                            <i class="bi bi-car-front d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Inventario</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-proceso-venta.html">
+                            <i class="bi bi-cart-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Proceso Venta</small>
+                    </a>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="precios-autos.html">
+                            <i class="bi bi-currency-dollar d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Precios</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="documentos.html">
+                            <i class="bi bi-folder d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Documentos</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-piso-hostess.html">
+                            <i class="bi bi-clipboard-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Hostess</small>
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="d-flex align-items-center text-white">
+
+                    <span class="me-3"><i class="bi bi-bell fs-5"></i></span>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-white text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>Roberto Díaz
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="padding-top:20px">
+        <div class="p-4">
+            <h3 class="mb-4"><i class="bi bi-globe me-2"></i>Tablero de Leads Internet</h3>
+
+            <!-- Resumen de Métricas -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card stat-card border-0 shadow-sm" style="border-left-color: #3b82f6;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Leads Recibidos</p>
+                                    <h3 class="mb-0">248</h3>
+                                </div>
+                                <i class="bi bi-download fs-1 text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-0 shadow-sm" style="border-left-color: #10b981;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Asignados</p>
+                                    <h3 class="mb-0">235</h3>
+                                </div>
+                                <i class="bi bi-person-check fs-1 text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-0 shadow-sm" style="border-left-color: #8b5cf6;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Con Seguimiento</p>
+                                    <h3 class="mb-0">187</h3>
+                                </div>
+                                <i class="bi bi-clipboard-check fs-1" style="color: #8b5cf6;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-0 shadow-sm" style="border-left-color: #ef4444;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Sin Seguimiento</p>
+                                    <h3 class="mb-0">48</h3>
+                                </div>
+                                <i class="bi bi-exclamation-triangle fs-1 text-danger"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-0 shadow-sm" style="border-left-color: #f59e0b;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">En Base de Datos</p>
+                                    <h3 class="mb-0">248</h3>
+                                </div>
+                                <i class="bi bi-database fs-1 text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-0 shadow-sm" style="border-left-color: #06b6d4;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Citas Generadas</p>
+                                    <h3 class="mb-0">92</h3>
+                                </div>
+                                <i class="bi bi-calendar-event fs-1" style="color: #06b6d4;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-0 shadow-sm" style="border-left-color: #ec4899;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Pruebas de Manejo</p>
+                                    <h3 class="mb-0">45</h3>
+                                </div>
+                                <i class="bi bi-car-front-fill fs-1" style="color: #ec4899;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-0 shadow-sm" style="border-left-color: #84cc16;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Autos Apartados</p>
+                                    <h3 class="mb-0">18</h3>
+                                </div>
+                                <i class="bi bi-bookmark-fill fs-1" style="color: #84cc16;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-0 shadow-sm" style="border-left-color: #10b981;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Autos Facturados</p>
+                                    <h3 class="mb-0">12</h3>
+                                </div>
+                                <i class="bi bi-trophy-fill fs-1 text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Ciudad</label>
+                            <select class="form-select" id="filterCiudad">
+                                <option value="">Todas</option>
+                                <option>Puebla</option>
+                                <option>CDMX</option>
+                                <option>Guadalajara</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Asesor</label>
+                            <select class="form-select" id="filterAsesor">
+                                <option value="">Todos</option>
+                                <option>Juan Pérez</option>
+                                <option>María López</option>
+                                <option>Carlos Gómez</option>
+                                <option>Ana Rodríguez</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Fecha Inicio</label>
+                            <input type="date" class="form-control" id="filterFechaInicio">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Fecha Fin</label>
+                            <input type="date" class="form-control" id="filterFechaFin">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-primary w-100">
+                                <i class="bi bi-funnel me-2"></i>Aplicar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Leads -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Lista de Leads Internet</h5>
+                </div>
+                <div class="card-body">
+                    <table id="leadsTable" class="table table-hover table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ciudad</th>
+                                <th>Clasificación</th>
+                                <th>Fecha Registro</th>
+                                <th>Nombre</th>
+                                <th>Teléfono</th>
+                                <th>Correo</th>
+                                <th>Publicidad</th>
+                                <th>Vehículo Interés</th>
+                                <th>Ficha</th>
+                                <th>Asesor</th>
+                                <th>Comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Puebla</td>
+                                <td><span class="badge badge-contactado">Contactado</span></td>
+                                <td>2025-10-20</td>
+                                <td><a href="bitacora-contacto.html?contacto=1" class="text-decoration-none">María González</a></td>
+                                <td>222-123-4567</td>
+                                <td>maria.gonzalez@email.com</td>
+                                <td>Facebook Ads</td>
+                                <td>Honda CR-V Touring</td>
+                                <td><span class="badge badge-completa">Completa</span></td>
+                                <td>Juan Pérez</td>
+                                <td>Interesada en financiamiento</td>
+                            </tr>
+                            <tr>
+                                <td>CDMX</td>
+                                <td><span class="badge badge-no-contactado">No Contactado</span></td>
+                                <td>2025-10-22</td>
+                                <td><a href="bitacora-contacto.html?contacto=2" class="text-decoration-none">Roberto Díaz</a></td>
+                                <td>555-234-5678</td>
+                                <td>roberto.diaz@email.com</td>
+                                <td>Google Ads</td>
+                                <td>KIA Sportage EX</td>
+                                <td><span class="badge badge-incompleta">Incompleta</span></td>
+                                <td>María López</td>
+                                <td>Llamar en horario de tarde</td>
+                            </tr>
+                            <tr>
+                                <td>Puebla</td>
+                                <td><span class="badge badge-contactado">Contactado</span></td>
+                                <td>2025-10-18</td>
+                                <td><a href="bitacora-contacto.html?contacto=3" class="text-decoration-none">Laura Sánchez</a></td>
+                                <td>222-345-6789</td>
+                                <td>laura.sanchez@email.com</td>
+                                <td>Instagram</td>
+                                <td>Changan CS35 Plus</td>
+                                <td><span class="badge badge-completa">Completa</span></td>
+                                <td>Juan Pérez</td>
+                                <td>Solicita cotización</td>
+                            </tr>
+                            <tr>
+                                <td>Guadalajara</td>
+                                <td><span class="badge badge-nego-seguimiento">Negó Seguimiento</span></td>
+                                <td>2025-10-21</td>
+                                <td><a href="bitacora-contacto.html?contacto=4" class="text-decoration-none">Pedro López</a></td>
+                                <td>333-456-7890</td>
+                                <td>pedro.lopez@email.com</td>
+                                <td>Mercado Libre</td>
+                                <td>Toyota RAV4 Limited</td>
+                                <td><span class="badge badge-completa">Completa</span></td>
+                                <td>Carlos Gómez</td>
+                                <td>Ya compró en otro lado</td>
+                            </tr>
+                            <tr>
+                                <td>CDMX</td>
+                                <td><span class="badge badge-contactado">Contactado</span></td>
+                                <td>2025-10-19</td>
+                                <td><a href="bitacora-contacto.html?contacto=5" class="text-decoration-none">Ana Martínez</a></td>
+                                <td>555-567-8901</td>
+                                <td>ana.martinez@email.com</td>
+                                <td>Página Web</td>
+                                <td>Mazda CX-5 Grand Touring</td>
+                                <td><span class="badge badge-completa">Completa</span></td>
+                                <td>María López</td>
+                                <td>Cita agendada para prueba</td>
+                            </tr>
+                            <tr>
+                                <td>Puebla</td>
+                                <td><span class="badge badge-no-contactado">No Contactado</span></td>
+                                <td>2025-10-23</td>
+                                <td><a href="bitacora-contacto.html?contacto=6" class="text-decoration-none">Carlos Ramírez</a></td>
+                                <td>222-678-9012</td>
+                                <td>carlos.ramirez@email.com</td>
+                                <td>Facebook Ads</td>
+                                <td>Nissan Kicks Exclusive</td>
+                                <td><span class="badge badge-incompleta">Incompleta</span></td>
+                                <td>Juan Pérez</td>
+                                <td>Teléfono no contesta</td>
+                            </tr>
+                            <tr>
+                                <td>CDMX</td>
+                                <td><span class="badge badge-contactado">Contactado</span></td>
+                                <td>2025-10-17</td>
+                                <td><a href="bitacora-contacto.html?contacto=7" class="text-decoration-none">Sofía García</a></td>
+                                <td>555-789-0123</td>
+                                <td>sofia.garcia@email.com</td>
+                                <td>Google Ads</td>
+                                <td>Hyundai Tucson Limited</td>
+                                <td><span class="badge badge-completa">Completa</span></td>
+                                <td>Ana Rodríguez</td>
+                                <td>Interesada en plan de 48 meses</td>
+                            </tr>
+                            <tr>
+                                <td>Guadalajara</td>
+                                <td><span class="badge badge-contactado">Contactado</span></td>
+                                <td>2025-10-16</td>
+                                <td><a href="bitacora-contacto.html?contacto=8" class="text-decoration-none">Miguel Torres</a></td>
+                                <td>333-890-1234</td>
+                                <td>miguel.torres@email.com</td>
+                                <td>Instagram</td>
+                                <td>Volkswagen Taos</td>
+                                <td><span class="badge badge-completa">Completa</span></td>
+                                <td>Carlos Gómez</td>
+                                <td>Quiere auto usado como parte de pago</td>
+                            </tr>
+                            <tr>
+                                <td>Puebla</td>
+                                <td><span class="badge badge-nego-seguimiento">Negó Seguimiento</span></td>
+                                <td>2025-10-15</td>
+                                <td><a href="bitacora-contacto.html?contacto=9" class="text-decoration-none">Elena Morales</a></td>
+                                <td>222-901-2345</td>
+                                <td>elena.morales@email.com</td>
+                                <td>Mercado Libre</td>
+                                <td>Ford Escape SE</td>
+                                <td><span class="badge badge-completa">Completa</span></td>
+                                <td>Juan Pérez</td>
+                                <td>Solo buscaba información de precios</td>
+                            </tr>
+                            <tr>
+                                <td>CDMX</td>
+                                <td><span class="badge badge-contactado">Contactado</span></td>
+                                <td>2025-10-14</td>
+                                <td><a href="bitacora-contacto.html?contacto=10" class="text-decoration-none">Jorge Hernández</a></td>
+                                <td>555-012-3456</td>
+                                <td>jorge.hernandez@email.com</td>
+                                <td>Página Web</td>
+                                <td>Chevrolet Trax Premier</td>
+                                <td><span class="badge badge-completa">Completa</span></td>
+                                <td>María López</td>
+                                <td>Apartó vehículo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Búsqueda de Contactos -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Contacto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Buscar por nombre, teléfono o correo...">
+                            <button class="btn btn-primary" type="button" onclick="searchContacts()">
+                                <i class="bi bi-search me-1"></i>Buscar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="searchResults">
+                        <div class="text-center text-muted py-5">
+                            <i class="bi bi-search fs-1"></i>
+                            <p class="mt-3">Ingresa un nombre, teléfono o correo para buscar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn-floating-search" data-bs-toggle="modal" data-bs-target="#searchModal" title="Buscar contacto">
+        <i class="bi bi-search"></i>
+    </button>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script>
+        const contactos = [
+            { id: 1, nombre: "María González", telefono: "222-123-4567", email: "maria.gonzalez@email.com", ciudad: "Puebla", interes: "Honda CR-V Touring 2024", asesor: "Juan Pérez" },
+            { id: 2, nombre: "Carlos Ramírez", telefono: "222-234-5678", email: "carlos.ramirez@email.com", ciudad: "Puebla", interes: "KIA Sportage EX 2024", asesor: "Juan Pérez" },
+            { id: 3, nombre: "Ana Martínez", telefono: "555-345-6789", email: "ana.martinez@email.com", ciudad: "CDMX", interes: "Mazda CX-5 Grand Touring 2024", asesor: "María López" },
+            { id: 4, nombre: "Pedro López", telefono: "333-456-7890", email: "pedro.lopez@email.com", ciudad: "Guadalajara", interes: "Toyota RAV4 Limited 2024", asesor: "Carlos Gómez" },
+            { id: 5, nombre: "Laura Sánchez", telefono: "222-567-8901", email: "laura.sanchez@email.com", ciudad: "Puebla", interes: "Changan CS35 Plus Elite 2024", asesor: "Juan Pérez" },
+            { id: 6, nombre: "Roberto Díaz", telefono: "555-678-9012", email: "roberto.diaz@email.com", ciudad: "CDMX", interes: "Nissan Kicks Exclusive 2024", asesor: "María López" }
+        ];
+
+        function searchContacts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('searchResults');
+            if (searchTerm === '') {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-search fs-1"></i><p class="mt-3">Ingresa un nombre, teléfono o correo para buscar</p></div>';
+                return;
+            }
+            const results = contactos.filter(contacto => contacto.nombre.toLowerCase().includes(searchTerm) || contacto.telefono.includes(searchTerm) || contacto.email.toLowerCase().includes(searchTerm));
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-inbox fs-1"></i><p class="mt-3">No se encontraron contactos</p></div>';
+                return;
+            }
+            let html = '<div class="table-responsive"><table class="table table-hover"><thead class="table-light"><tr><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Ciudad</th><th>Interés</th><th>Asesor</th><th>Acción</th></tr></thead><tbody>';
+            results.forEach(contacto => {
+                html += '<tr><td><strong>' + contacto.nombre + '</strong></td><td><i class="bi bi-telephone me-1"></i>' + contacto.telefono + '</td><td><i class="bi bi-envelope me-1"></i>' + contacto.email + '</td><td><i class="bi bi-geo-alt me-1"></i>' + contacto.ciudad + '</td><td><small>' + contacto.interes + '</small></td><td><small>' + contacto.asesor + '</small></td><td><a href="bitacora-contacto.html?contacto=' + contacto.id + '" class="btn btn-sm btn-primary"><i class="bi bi-journal-text me-1"></i>Ver Bitácora</a></td></tr>';
+            });
+            html += '</tbody></table></div>';
+            resultsDiv.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') { searchContacts(); }
+                });
+            }
+        });
+
+        // Inicializar DataTable
+        $(document).ready(function() {
+            $('#leadsTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: '<i class="bi bi-file-earmark-excel me-1"></i>Exportar a Excel',
+                        className: 'btn btn-success btn-sm',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+                },
+                pageLength: 25,
+                order: [[2, 'desc']],
+                responsive: true
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Piso - Hostess - CRM Automotriz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .top-nav {
+            background: rgb(23, 37, 84);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-synch4 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 0.35rem 1rem;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        .logo-synch4:hover {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+            transform: translateY(-1px);
+        }
+        .logo-synch4 .logo-text {
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            border-radius: 6px;
+            margin: 0 0.15rem;
+            font-size: 0.85rem;
+        }
+        .top-nav .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 0.15rem;
+        }
+        .top-nav .nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .top-nav .nav-link.active {
+            color: white;
+            background: #3b82f6;
+            font-weight: 500;
+        }
+        .stat-card {
+            border-left: 4px solid;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.3);
+            padding: 0.35rem 0.5rem;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        .dropdown-toggle {
+            font-size: 0.9rem;
+        }
+        .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+        }
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            color: white;
+        }
+        .btn-floating-search {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1020;
+        }
+        .btn-floating-search:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg top-nav text-white shadow">
+        <div class="container-fluid" >
+            <a class="navbar-brand text-white" href="dashboard-asesor.html">
+                <img src="logo_syn.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-general.html">
+                            <i class="bi  bi-speedometer2 d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="dashboard-asesor.html">
+                            <i class="bi bi-person-lines-fill  d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Asesor</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-oportunidades.html">
+                            <i class="bi bi-trophy d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Oportunidades</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-leads-internet.html">
+                            <i class="bi bi-globe d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Leads Internet</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="agenda.html">
+                            <i class="bi bi-calendar-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Agenda</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventario.html">
+                            <i class="bi bi-car-front d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Inventario</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-proceso-venta.html">
+                            <i class="bi bi-cart-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Proceso Venta</small>
+                    </a>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="precios-autos.html">
+                            <i class="bi bi-currency-dollar d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Precios</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="documentos.html">
+                            <i class="bi bi-folder d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Documentos</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="tablero-piso-hostess.html">
+                            <i class="bi bi-clipboard-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Hostess</small>
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="d-flex align-items-center text-white">
+
+                    <span class="me-3"><i class="bi bi-bell fs-5"></i></span>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-white text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>Roberto Díaz
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <div class="container-fluid" style="padding-top:20px">
+        <div class="p-4">
+                    <!-- Asesores Disponibles -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="bi bi-people me-2"></i>Asesores de Ventas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <div class="card asesor-card disponible border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="bg-success rounded-circle me-2" style="width: 12px; height: 12px;"></div>
+                                                <h6 class="mb-0">Juan Pérez</h6>
+                                            </div>
+                                            <p class="text-muted small mb-2">Asesor Senior</p>
+                                            <p class="text-muted small mb-1"><i class="bi bi-trophy me-1"></i>5 oportunidades activas</p>
+                                            <span class="badge bg-success">Disponible</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card asesor-card ocupado border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="bg-danger rounded-circle me-2" style="width: 12px; height: 12px;"></div>
+                                                <h6 class="mb-0">María López</h6>
+                                            </div>
+                                            <p class="text-muted small mb-2">Asesor</p>
+                                            <p class="text-muted small mb-1"><i class="bi bi-trophy me-1"></i>8 oportunidades activas</p>
+                                            <span class="badge bg-danger">En atención</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card asesor-card disponible border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="bg-success rounded-circle me-2" style="width: 12px; height: 12px;"></div>
+                                                <h6 class="mb-0">Carlos Gómez</h6>
+                                            </div>
+                                            <p class="text-muted small mb-2">Asesor</p>
+                                            <p class="text-muted small mb-1"><i class="bi bi-trophy me-1"></i>3 oportunidades activas</p>
+                                            <span class="badge bg-success">Disponible</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card asesor-card disponible border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="bg-success rounded-circle me-2" style="width: 12px; height: 12px;"></div>
+                                                <h6 class="mb-0">Ana Rodríguez</h6>
+                                            </div>
+                                            <p class="text-muted small mb-2">Asesor Junior</p>
+                                            <p class="text-muted small mb-1"><i class="bi bi-trophy me-1"></i>2 oportunidades activas</p>
+                                            <span class="badge bg-success">Disponible</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Registro de Nuevo Contacto -->
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0"><i class="bi bi-person-plus me-2"></i>Registrar Nuevo Contacto</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="nuevoContactoForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nombre Completo *</label>
+                                            <input type="text" class="form-control" placeholder="Ej: Juan Pérez García" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Correo Electrónico *</label>
+                                            <input type="email" class="form-control" placeholder="ejemplo@email.com" required>
+                                            <small class="text-muted">Se validará que no exista</small>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Teléfono/Celular *</label>
+                                            <input type="tel" class="form-control" placeholder="222-555-0123" required>
+                                            <small class="text-muted">Se validará que no exista</small>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Medio Preferido de Contacto</label>
+                                            <select class="form-select">
+                                                <option>Email</option>
+                                                <option>Teléfono</option>
+                                                <option selected>WhatsApp</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Auto de Interés</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipoAuto" id="nuevo" checked>
+                                                <label class="form-check-label" for="nuevo">Nuevo</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipoAuto" id="demo">
+                                                <label class="form-check-label" for="demo">Demo</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipoAuto" id="seminuevo">
+                                                <label class="form-check-label" for="seminuevo">Seminuevo</label>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Asignar a Asesor *</label>
+                                            <select class="form-select" required>
+                                                <option value="">Seleccionar asesor disponible...</option>
+                                                <option>Juan Pérez (Disponible)</option>
+                                                <option>Carlos Gómez (Disponible)</option>
+                                                <option>Ana Rodríguez (Disponible)</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="bi bi-person-check me-2"></i>Registrar Contacto
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Solicitudes de Prueba de Manejo -->
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0"><i class="bi bi-key me-2"></i>Solicitudes de Prueba de Manejo</h5>
+                                    <span class="badge bg-warning">3 Pendientes</span>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Solicitud 1 -->
+                                    <div class="card mb-3 border-warning">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div>
+                                                    <h6 class="mb-1">María González</h6>
+                                                    <p class="text-muted small mb-1">Tel: 222-555-0123</p>
+                                                </div>
+                                                <span class="badge bg-warning">Pendiente</span>
+                                            </div>
+                                            <p class="mb-1"><strong>Vehículo:</strong> Honda CR-V Touring 2024</p>
+                                            <p class="mb-1"><strong>VIN:</strong> 3HGGK5H80PM700123</p>
+                                            <p class="mb-2"><strong>Solicitado por:</strong> Juan Pérez</p>
+                                            <p class="mb-3"><strong>Fecha programada:</strong> 23 Oct 2025, 10:00 AM</p>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-success flex-fill" data-bs-toggle="modal" data-bs-target="#aprobarPruebaModal">
+                                                    <i class="bi bi-check-lg me-1"></i>Aprobar
+                                                </button>
+                                                <button class="btn btn-sm btn-danger flex-fill">
+                                                    <i class="bi bi-x-lg me-1"></i>Rechazar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Solicitud 2 -->
+                                    <div class="card mb-3 border-warning">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div>
+                                                    <h6 class="mb-1">Carlos Ramírez</h6>
+                                                    <p class="text-muted small mb-1">Tel: 222-555-0456</p>
+                                                </div>
+                                                <span class="badge bg-warning">Pendiente</span>
+                                            </div>
+                                            <p class="mb-1"><strong>Vehículo:</strong> KIA Sportage EX 2024</p>
+                                            <p class="mb-1"><strong>VIN:</strong> 5XYZ3LG07NG100456</p>
+                                            <p class="mb-2"><strong>Solicitado por:</strong> Juan Pérez</p>
+                                            <p class="mb-3"><strong>Fecha programada:</strong> 23 Oct 2025, 2:00 PM</p>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-success flex-fill" data-bs-toggle="modal" data-bs-target="#aprobarPruebaModal">
+                                                    <i class="bi bi-check-lg me-1"></i>Aprobar
+                                                </button>
+                                                <button class="btn btn-sm btn-danger flex-fill">
+                                                    <i class="bi bi-x-lg me-1"></i>Rechazar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Solicitud 3 -->
+                                    <div class="card mb-0 border-success">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div>
+                                                    <h6 class="mb-1">Roberto Hernández</h6>
+                                                    <p class="text-muted small mb-1">Tel: 222-555-0987</p>
+                                                </div>
+                                                <span class="badge bg-success">Aprobada</span>
+                                            </div>
+                                            <p class="mb-1"><strong>Vehículo:</strong> Honda Accord 2024</p>
+                                            <p class="mb-1"><strong>Aprobada por:</strong> Laura Martínez</p>
+                                            <p class="mb-0"><strong>Fecha:</strong> 23 Oct 2025, 4:00 PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <!-- Modal Citas del Día -->
+    <div class="modal fade" id="citasModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-calendar3 me-2"></i>Citas del Día - 23 Oct 2025</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Hora</th>
+                                    <th>Cliente</th>
+                                    <th>Asesor</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>10:00 AM</td>
+                                    <td>María González</td>
+                                    <td>Juan Pérez</td>
+                                    <td>Prueba de Manejo - CR-V</td>
+                                    <td><span class="badge bg-warning">Programada</span></td>
+                                </tr>
+                                <tr>
+                                    <td>11:30 AM</td>
+                                    <td>Pedro López</td>
+                                    <td>Carlos Gómez</td>
+                                    <td>Cotización - Civic</td>
+                                    <td><span class="badge bg-success">Confirmada</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2:00 PM</td>
+                                    <td>Carlos Ramírez</td>
+                                    <td>Juan Pérez</td>
+                                    <td>Prueba de Manejo - Sportage</td>
+                                    <td><span class="badge bg-warning">Programada</span></td>
+                                </tr>
+                                <tr>
+                                    <td>3:30 PM</td>
+                                    <td>Laura Sánchez</td>
+                                    <td>María López</td>
+                                    <td>Seguimiento - Sorento</td>
+                                    <td><span class="badge bg-success">Confirmada</span></td>
+                                </tr>
+                                <tr>
+                                    <td>4:00 PM</td>
+                                    <td>Roberto Hernández</td>
+                                    <td>María López</td>
+                                    <td>Prueba de Manejo - Accord</td>
+                                    <td><span class="badge bg-success">Aprobada</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Aprobar Prueba -->
+    <div class="modal fade" id="aprobarPruebaModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Aprobar Prueba de Manejo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>Al aprobar, la prueba de manejo quedará registrada en la bitácora del contacto.
+                    </div>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Notas adicionales</label>
+                            <textarea class="form-control" rows="3" placeholder="Observaciones o instrucciones especiales..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success">
+                        <i class="bi bi-check-lg me-1"></i>Aprobar Prueba
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Contacto Duplicado -->
+    <div class="modal fade" id="duplicadoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Contacto Existente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>El correo o teléfono ya existe en el sistema:</p>
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>María González</h6>
+                            <p class="mb-1">Email: maria.gonzalez@email.com</p>
+                            <p class="mb-1">Tel: 222-555-0123</p>
+                            <p class="mb-0">Asesor actual: Juan Pérez</p>
+                        </div>
+                    </div>
+                    <p class="mt-3">¿Deseas transferir este contacto a otro asesor?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transferirModal">
+                        Transferir Asesor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn-floating-search" data-bs-toggle="modal" data-bs-target="#searchModal" title="Buscar contacto">
+        <i class="bi bi-search"></i>
+    </button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const contactos = [
+            { id: 1, nombre: "María González", telefono: "222-123-4567", email: "maria.gonzalez@email.com", ciudad: "Puebla", interes: "Honda CR-V Touring 2024", asesor: "Juan Pérez" },
+            { id: 2, nombre: "Carlos Ramírez", telefono: "222-234-5678", email: "carlos.ramirez@email.com", ciudad: "Puebla", interes: "KIA Sportage EX 2024", asesor: "Juan Pérez" },
+            { id: 3, nombre: "Ana Martínez", telefono: "555-345-6789", email: "ana.martinez@email.com", ciudad: "CDMX", interes: "Mazda CX-5 Grand Touring 2024", asesor: "María López" },
+            { id: 4, nombre: "Pedro López", telefono: "333-456-7890", email: "pedro.lopez@email.com", ciudad: "Guadalajara", interes: "Toyota RAV4 Limited 2024", asesor: "Carlos Gómez" },
+            { id: 5, nombre: "Laura Sánchez", telefono: "222-567-8901", email: "laura.sanchez@email.com", ciudad: "Puebla", interes: "Changan CS35 Plus Elite 2024", asesor: "Juan Pérez" },
+            { id: 6, nombre: "Roberto Díaz", telefono: "555-678-9012", email: "roberto.diaz@email.com", ciudad: "CDMX", interes: "Nissan Kicks Exclusive 2024", asesor: "María López" }
+        ];
+        function searchContacts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('searchResults');
+            if (searchTerm === '') {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-search fs-1"></i><p class="mt-3">Ingresa un nombre, teléfono o correo para buscar</p></div>';
+                return;
+            }
+            const results = contactos.filter(contacto => contacto.nombre.toLowerCase().includes(searchTerm) || contacto.telefono.includes(searchTerm) || contacto.email.toLowerCase().includes(searchTerm));
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-inbox fs-1"></i><p class="mt-3">No se encontraron contactos</p></div>';
+                return;
+            }
+            let html = '<div class="table-responsive"><table class="table table-hover"><thead class="table-light"><tr><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Ciudad</th><th>Interés</th><th>Asesor</th><th>Acción</th></tr></thead><tbody>';
+            results.forEach(contacto => {
+                html += '<tr><td><strong>' + contacto.nombre + '</strong></td><td><i class="bi bi-telephone me-1"></i>' + contacto.telefono + '</td><td><i class="bi bi-envelope me-1"></i>' + contacto.email + '</td><td><i class="bi bi-geo-alt me-1"></i>' + contacto.ciudad + '</td><td><small>' + contacto.interes + '</small></td><td><small>' + contacto.asesor + '</small></td><td><a href="bitacora-contacto.html?contacto=' + contacto.id + '" class="btn btn-sm btn-primary"><i class="bi bi-journal-text me-1"></i>Ver Bitácora</a></td></tr>';
+            });
+            html += '</tbody></table></div>';
+            resultsDiv.innerHTML = html;
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') { searchContacts(); }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

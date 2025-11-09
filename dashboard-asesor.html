@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Asesor - CRM Automotriz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .top-nav {
+            background: rgb(23, 37, 84);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-synch4 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 0.35rem 1rem;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        .logo-synch4:hover {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+            transform: translateY(-1px);
+        }
+        .logo-synch4 .logo-text {
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            border-radius: 6px;
+            margin: 0 0.15rem;
+            font-size: 0.85rem;
+        }
+        .top-nav .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 0.15rem;
+        }
+        .top-nav .nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .top-nav .nav-link.active {
+            color: white;
+            background: #3b82f6;
+            font-weight: 500;
+        }
+        .stat-card {
+            border-left: 4px solid;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.3);
+            padding: 0.35rem 0.5rem;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        .dropdown-toggle {
+            font-size: 0.9rem;
+        }
+        .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+        }
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            color: white;
+        }
+        .btn-floating-search {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1020;
+        }
+        .btn-floating-search:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg top-nav text-white shadow">
+        <div class="container-fluid" >
+            <a class="navbar-brand text-white" href="dashboard-asesor.html">
+                <img src="logo_syn.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-general.html">
+                            <i class="bi  bi-speedometer2 d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  active" href="dashboard-asesor.html">
+                            <i class="bi bi-person-lines-fill  d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Asesor</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-oportunidades.html">
+                            <i class="bi bi-trophy d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Oportunidades</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-leads-internet.html">
+                            <i class="bi bi-globe d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Leads Internet</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="agenda.html">
+                            <i class="bi bi-calendar-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Agenda</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventario.html">
+                            <i class="bi bi-car-front d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Inventario</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-proceso-venta.html">
+                            <i class="bi bi-cart-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Proceso Venta</small>
+                    </a>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="precios-autos.html">
+                            <i class="bi bi-currency-dollar d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Precios</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="documentos.html">
+                            <i class="bi bi-folder d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Documentos</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-piso-hostess.html">
+                            <i class="bi bi-clipboard-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Hostess</small>
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="d-flex align-items-center text-white">
+
+                    <span class="me-3"><i class="bi bi-bell fs-5"></i></span>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-white text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>Roberto Díaz
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="padding-top:20px">
+        <div class="p-4">
+                    <!-- Header with Quick Actions -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="mb-0">Mi Seguimiento</h3>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cotizacionModal">
+                                <i class="bi bi-file-earmark-text me-2"></i>Crear Cotización
+                            </button>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#pruebaModal">
+                                <i class="bi bi-speedometer2 me-2"></i>Prueba de Manejo
+                            </button>
+                            <button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#citaModal">
+                                <i class="bi bi-calendar-plus me-2"></i>Crear Cita
+                            </button>
+                            <button class="btn btn-whatsapp" data-bs-toggle="modal" data-bs-target="#whatsappModal">
+                                <i class="bi bi-whatsapp me-2"></i>Enviar WhatsApp
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card border-0 shadow-sm" style="border-left-color: #ef4444;">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Tareas Pendientes</h6>
+                                    <h2 class="mb-0">8</h2>
+                                    <small class="text-danger"><i class="bi bi-exclamation-circle me-1"></i>3 vencidas</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card border-0 shadow-sm" style="border-left-color: #3b82f6;">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Ventas del Mes</h6>
+                                    <h2 class="mb-0">5</h2>
+                                    <small class="text-success"><i class="bi bi-arrow-up me-1"></i>+2 vs mes anterior</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card border-0 shadow-sm" style="border-left-color: #f59e0b;">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Autos Apartados</h6>
+                                    <h2 class="mb-0">3</h2>
+                                    <small class="text-muted">Total: $2,450,000</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card border-0 shadow-sm" style="border-left-color: #10b981;">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Oportunidades Activas</h6>
+                                    <h2 class="mb-0">12</h2>
+                                    <small class="text-muted">8 calientes</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agenda del Día -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Agenda del Día - <span class="text-primary">23 Oct 2025</span></h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3 p-3 border-start border-5 border-danger bg-light">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <span class="badge bg-danger mb-2">Cita</span>
+                                                <h6>Prueba de manejo - Honda CR-V</h6>
+                                                <p class="text-muted mb-1"><i class="bi bi-person me-2"></i>María González</p>
+                                                <p class="text-muted mb-0"><i class="bi bi-clock me-2"></i>10:00 AM</p>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-success">Completar</button>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 p-3 border-start border-5 border-warning bg-light">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <span class="badge bg-warning mb-2">Tarea</span>
+                                                <h6>Seguimiento cotización KIA Sportage</h6>
+                                                <p class="text-muted mb-1"><i class="bi bi-person me-2"></i>Carlos Ramírez</p>
+                                                <p class="text-muted mb-0"><i class="bi bi-clock me-2"></i>2:00 PM (HOY)</p>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-success">Completar</button>
+                                        </div>
+                                    </div>
+                                    <div class="mb-0 p-3 border-start border-5 border-success bg-light">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <span class="badge bg-success mb-2">Cita</span>
+                                                <h6>Entrega de vehículo</h6>
+                                                <p class="text-muted mb-1"><i class="bi bi-person me-2"></i>Ana Martínez</p>
+                                                <p class="text-muted mb-0"><i class="bi bi-clock me-2"></i>4:30 PM</p>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-success">Completar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <!-- Cumpleaños -->
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-header bg-white">
+                                    <h6 class="mb-0"><i class="bi bi-cake2 me-2 text-warning"></i>Cumpleaños Hoy</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <strong>Pedro López</strong>
+                                        <p class="text-muted small mb-0">Cliente - Tel: 222-555-0123</p>
+                                    </div>
+                                    <div>
+                                        <strong>Laura Sánchez</strong>
+                                        <p class="text-muted small mb-0">Prospecto - Tel: 222-555-0456</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Clientes en Servicio -->
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h6 class="mb-0"><i class="bi bi-tools me-2 text-info"></i>Vienen a Servicio Hoy</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <strong>Roberto Hernández</strong>
+                                        <p class="text-muted small mb-0">Honda Civic 2023 - 11:00 AM</p>
+                                    </div>
+                                    <div>
+                                        <strong>Sofia Ramírez</strong>
+                                        <p class="text-muted small mb-0">CR-V 2022 - 3:00 PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla Autos Apartados -->
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">Mis Autos Apartados</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>VIN</th>
+                                            <th>Modelo</th>
+                                            <th>Cliente</th>
+                                            <th>Monto Apartado</th>
+                                            <th>Días Apartado</th>
+                                            <th>Folio</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><small>3HGGK5H80PM700123</small></td>
+                                            <td>Honda CR-V Touring 2024</td>
+                                            <td>María González</td>
+                                            <td class="text-success fw-bold">$50,000</td>
+                                            <td><span class="badge bg-warning">5 días</span></td>
+                                            <td>APT-2024-001</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary">Ver Detalle</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><small>5XYZ3LG07NG100456</small></td>
+                                            <td>KIA Sportage EX 2024</td>
+                                            <td>Carlos Ramírez</td>
+                                            <td class="text-success fw-bold">$30,000</td>
+                                            <td><span class="badge bg-success">2 días</span></td>
+                                            <td>APT-2024-002</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary">Ver Detalle</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><small>LSGJD54J8MH200789</small></td>
+                                            <td>Changan CS35 Premium 2024</td>
+                                            <td>Ana Martínez</td>
+                                            <td class="text-success fw-bold">$20,000</td>
+                                            <td><span class="badge bg-danger">12 días</span></td>
+                                            <td>APT-2024-003</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary">Ver Detalle</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <!-- Modal de Búsqueda de Contactos -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Contacto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Buscar por nombre, teléfono o correo...">
+                            <button class="btn btn-primary" type="button" onclick="searchContacts()">
+                                <i class="bi bi-search me-1"></i>Buscar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="searchResults">
+                        <!-- Resultados aparecerán aquí -->
+                        <div class="text-center text-muted py-5">
+                            <i class="bi bi-search fs-1"></i>
+                            <p class="mt-3">Ingresa un nombre, teléfono o correo para buscar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Datos de ejemplo de contactos
+        const contactos = [
+            {
+                id: 1,
+                nombre: "María González",
+                telefono: "222-123-4567",
+                email: "maria.gonzalez@email.com",
+                ciudad: "Puebla",
+                interes: "Honda CR-V Touring 2024",
+                asesor: "Juan Pérez"
+            },
+            {
+                id: 2,
+                nombre: "Carlos Ramírez",
+                telefono: "222-234-5678",
+                email: "carlos.ramirez@email.com",
+                ciudad: "Puebla",
+                interes: "KIA Sportage EX 2024",
+                asesor: "Juan Pérez"
+            },
+            {
+                id: 3,
+                nombre: "Ana Martínez",
+                telefono: "555-345-6789",
+                email: "ana.martinez@email.com",
+                ciudad: "CDMX",
+                interes: "Mazda CX-5 Grand Touring 2024",
+                asesor: "María López"
+            },
+            {
+                id: 4,
+                nombre: "Pedro López",
+                telefono: "333-456-7890",
+                email: "pedro.lopez@email.com",
+                ciudad: "Guadalajara",
+                interes: "Toyota RAV4 Limited 2024",
+                asesor: "Carlos Gómez"
+            },
+            {
+                id: 5,
+                nombre: "Laura Sánchez",
+                telefono: "222-567-8901",
+                email: "laura.sanchez@email.com",
+                ciudad: "Puebla",
+                interes: "Changan CS35 Plus Elite 2024",
+                asesor: "Juan Pérez"
+            },
+            {
+                id: 6,
+                nombre: "Roberto Díaz",
+                telefono: "555-678-9012",
+                email: "roberto.diaz@email.com",
+                ciudad: "CDMX",
+                interes: "Nissan Kicks Exclusive 2024",
+                asesor: "María López"
+            }
+        ];
+
+        function searchContacts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('searchResults');
+
+            if (searchTerm === '') {
+                resultsDiv.innerHTML = `
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-search fs-1"></i>
+                        <p class="mt-3">Ingresa un nombre, teléfono o correo para buscar</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const results = contactos.filter(contacto => {
+                return contacto.nombre.toLowerCase().includes(searchTerm) ||
+                       contacto.telefono.includes(searchTerm) ||
+                       contacto.email.toLowerCase().includes(searchTerm);
+            });
+
+            if (results.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-inbox fs-1"></i>
+                        <p class="mt-3">No se encontraron contactos</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="table-responsive"><table class="table table-hover">';
+            html += `
+                <thead class="table-light">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Ciudad</th>
+                        <th>Interés</th>
+                        <th>Asesor</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+
+            results.forEach(contacto => {
+                html += `
+                    <tr>
+                        <td><strong>${contacto.nombre}</strong></td>
+                        <td><i class="bi bi-telephone me-1"></i>${contacto.telefono}</td>
+                        <td><i class="bi bi-envelope me-1"></i>${contacto.email}</td>
+                        <td><i class="bi bi-geo-alt me-1"></i>${contacto.ciudad}</td>
+                        <td><small>${contacto.interes}</small></td>
+                        <td><small>${contacto.asesor}</small></td>
+                        <td>
+                            <a href="bitacora-contacto.html?contacto=${contacto.id}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-journal-text me-1"></i>Ver Bitácora
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table></div>';
+            resultsDiv.innerHTML = html;
+        }
+
+        // Permitir búsqueda con Enter
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchContacts();
+                    }
+                });
+            }
+        });
+
+        // Funciones para botones de acción rápida
+        function crearCotizacion() {
+            const cliente = document.getElementById('cotizacionCliente').value;
+            const vehiculo = document.getElementById('cotizacionVehiculo').value;
+
+            if (!cliente || !vehiculo) {
+                alert('Por favor complete todos los campos');
+                return;
+            }
+
+            alert(`Cotización creada para ${cliente} - ${vehiculo}`);
+            bootstrap.Modal.getInstance(document.getElementById('cotizacionModal')).hide();
+        }
+
+        function crearPruebaManejo() {
+            const cliente = document.getElementById('pruebaCliente').value;
+            const vehiculo = document.getElementById('pruebaVehiculo').value;
+            const fecha = document.getElementById('pruebaFecha').value;
+
+            if (!cliente || !vehiculo || !fecha) {
+                alert('Por favor complete todos los campos');
+                return;
+            }
+
+            alert(`Prueba de manejo agendada para ${cliente} - ${vehiculo} el ${fecha}`);
+            bootstrap.Modal.getInstance(document.getElementById('pruebaModal')).hide();
+        }
+
+        function crearCita() {
+            const cliente = document.getElementById('citaCliente').value;
+            const tipo = document.getElementById('citaTipo').value;
+            const fecha = document.getElementById('citaFecha').value;
+
+            if (!cliente || !tipo || !fecha) {
+                alert('Por favor complete todos los campos');
+                return;
+            }
+
+            alert(`Cita creada: ${tipo} con ${cliente} el ${fecha}`);
+            bootstrap.Modal.getInstance(document.getElementById('citaModal')).hide();
+        }
+
+        function enviarWhatsApp() {
+            const cliente = document.getElementById('whatsappCliente').value;
+            const telefono = document.getElementById('whatsappTelefono').value;
+            const mensaje = document.getElementById('whatsappMensaje').value;
+
+            if (!cliente || !telefono || !mensaje) {
+                alert('Por favor complete todos los campos');
+                return;
+            }
+
+            const mensajeCodificado = encodeURIComponent(mensaje);
+            const telefonoLimpio = telefono.replace(/\D/g, '');
+            const url = `https://wa.me/${telefonoLimpio}?text=${mensajeCodificado}`;
+
+            window.open(url, '_blank');
+            bootstrap.Modal.getInstance(document.getElementById('whatsappModal')).hide();
+        }
+
+        function cargarPlantilla() {
+            const plantilla = document.getElementById('whatsappPlantilla').value;
+            const mensajeTextarea = document.getElementById('whatsappMensaje');
+            const clienteNombre = document.getElementById('whatsappCliente').value || '[Nombre]';
+
+            if (plantilla === 'seguimiento') {
+                mensajeTextarea.value = `Hola ${clienteNombre}, soy tu asesor de ventas. ¿Cómo estás? Te escribo para dar seguimiento a tu interés en nuestros vehículos. ¿Hay algo en lo que pueda ayudarte?`;
+            } else if (plantilla === 'cotizacion') {
+                mensajeTextarea.value = `Hola ${clienteNombre}, te envío la cotización que solicitaste. ¿Tienes alguna duda sobre los precios o formas de pago?`;
+            } else if (plantilla === 'recordatorio') {
+                mensajeTextarea.value = `Hola ${clienteNombre}, te recuerdo que tienes una cita programada con nosotros. ¿Sigues disponible?`;
+            } else if (plantilla === 'agradecimiento') {
+                mensajeTextarea.value = `Hola ${clienteNombre}, muchas gracias por tu visita y confianza. Estamos a tus órdenes para cualquier duda o aclaración.`;
+            }
+        }
+    </script>
+
+    <!-- Modal Crear Cotización -->
+    <div class="modal fade" id="cotizacionModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-file-earmark-text me-2"></i>Crear Nueva Cotización
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Cliente *</label>
+                            <select class="form-select" id="cotizacionCliente">
+                                <option value="">Seleccionar cliente...</option>
+                                <option value="María González">María González</option>
+                                <option value="Carlos Ramírez">Carlos Ramírez</option>
+                                <option value="Ana Martínez">Ana Martínez</option>
+                                <option value="Pedro López">Pedro López</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Vehículo *</label>
+                            <select class="form-select" id="cotizacionVehiculo">
+                                <option value="">Seleccionar vehículo...</option>
+                                <option value="Honda CR-V Touring 2024">Honda CR-V Touring 2024</option>
+                                <option value="Honda Accord Touring 2024">Honda Accord Touring 2024</option>
+                                <option value="Honda HR-V Touring 2024">Honda HR-V Touring 2024</option>
+                                <option value="Honda City Sport 2024">Honda City Sport 2024</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Método de Pago</label>
+                            <select class="form-select">
+                                <option>Contado</option>
+                                <option>Financiamiento</option>
+                                <option>Arrendamiento</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Enganche</label>
+                            <input type="number" class="form-control" placeholder="Monto del enganche">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Observaciones</label>
+                            <textarea class="form-control" rows="3" placeholder="Notas adicionales..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="crearCotizacion()">
+                        <i class="bi bi-check-circle me-2"></i>Crear Cotización
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Prueba de Manejo -->
+    <div class="modal fade" id="pruebaModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-speedometer2 me-2"></i>Agendar Prueba de Manejo
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Cliente *</label>
+                            <select class="form-select" id="pruebaCliente">
+                                <option value="">Seleccionar cliente...</option>
+                                <option value="María González">María González</option>
+                                <option value="Carlos Ramírez">Carlos Ramírez</option>
+                                <option value="Ana Martínez">Ana Martínez</option>
+                                <option value="Pedro López">Pedro López</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Vehículo *</label>
+                            <select class="form-select" id="pruebaVehiculo">
+                                <option value="">Seleccionar vehículo...</option>
+                                <option value="Honda CR-V Touring 2024">Honda CR-V Touring 2024</option>
+                                <option value="Honda Accord Touring 2024">Honda Accord Touring 2024</option>
+                                <option value="Honda HR-V Touring 2024">Honda HR-V Touring 2024</option>
+                                <option value="Honda City Sport 2024">Honda City Sport 2024</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha y Hora *</label>
+                            <input type="datetime-local" class="form-control" id="pruebaFecha">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Duración</label>
+                            <select class="form-select">
+                                <option>30 minutos</option>
+                                <option selected>1 hora</option>
+                                <option>2 horas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Punto de Salida</label>
+                            <select class="form-select">
+                                <option>Agencia Puebla Centro</option>
+                                <option>Agencia Puebla Norte</option>
+                                <option>Agencia Cholula</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Licencia Verificada</label>
+                            <select class="form-select">
+                                <option value="">No verificada</option>
+                                <option>Vigente</option>
+                                <option>Vencida</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Notas</label>
+                            <textarea class="form-control" rows="2" placeholder="Información adicional..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="crearPruebaManejo()">
+                        <i class="bi bi-check-circle me-2"></i>Agendar Prueba
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Crear Cita -->
+    <div class="modal fade" id="citaModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-calendar-plus me-2"></i>Crear Nueva Cita
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Cliente *</label>
+                            <select class="form-select" id="citaCliente">
+                                <option value="">Seleccionar cliente...</option>
+                                <option value="María González">María González</option>
+                                <option value="Carlos Ramírez">Carlos Ramírez</option>
+                                <option value="Ana Martínez">Ana Martínez</option>
+                                <option value="Pedro López">Pedro López</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tipo de Cita *</label>
+                            <select class="form-select" id="citaTipo">
+                                <option value="">Seleccionar tipo...</option>
+                                <option value="Consulta">Consulta / Información</option>
+                                <option value="Negociación">Negociación</option>
+                                <option value="Entrega">Entrega de Vehículo</option>
+                                <option value="Seguimiento">Seguimiento</option>
+                                <option value="Documentación">Firma de Documentos</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha y Hora *</label>
+                            <input type="datetime-local" class="form-control" id="citaFecha">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Duración</label>
+                            <select class="form-select">
+                                <option>30 minutos</option>
+                                <option selected>1 hora</option>
+                                <option>2 horas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Ubicación</label>
+                            <select class="form-select">
+                                <option>Agencia</option>
+                                <option>Domicilio del cliente</option>
+                                <option>Videollamada</option>
+                                <option>Llamada telefónica</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Recordatorio</label>
+                            <select class="form-select">
+                                <option>Sin recordatorio</option>
+                                <option>1 hora antes</option>
+                                <option selected>1 día antes</option>
+                                <option>2 días antes</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-control" rows="3" placeholder="Detalles de la cita..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-info text-white" onclick="crearCita()">
+                        <i class="bi bi-check-circle me-2"></i>Crear Cita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Enviar WhatsApp -->
+    <div class="modal fade" id="whatsappModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
+                    <h5 class="modal-title text-white">
+                        <i class="bi bi-whatsapp me-2"></i>Enviar Mensaje por WhatsApp
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Cliente *</label>
+                            <select class="form-select" id="whatsappCliente" onchange="autocargarTelefono()">
+                                <option value="">Seleccionar cliente...</option>
+                                <option value="María González" data-telefono="2221234567">María González</option>
+                                <option value="Carlos Ramírez" data-telefono="2222345678">Carlos Ramírez</option>
+                                <option value="Ana Martínez" data-telefono="5553456789">Ana Martínez</option>
+                                <option value="Pedro López" data-telefono="3334567890">Pedro López</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Teléfono (con código de país) *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">+52</span>
+                                <input type="tel" class="form-control" id="whatsappTelefono" placeholder="2221234567">
+                            </div>
+                            <small class="text-muted">Ejemplo: 2221234567 (10 dígitos)</small>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Plantilla de Mensaje</label>
+                            <select class="form-select" id="whatsappPlantilla" onchange="cargarPlantilla()">
+                                <option value="">Mensaje personalizado...</option>
+                                <option value="seguimiento">Seguimiento general</option>
+                                <option value="cotizacion">Envío de cotización</option>
+                                <option value="recordatorio">Recordatorio de cita</option>
+                                <option value="agradecimiento">Agradecimiento</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Mensaje *</label>
+                            <textarea class="form-control" id="whatsappMensaje" rows="6" placeholder="Escribe tu mensaje aquí..."></textarea>
+                            <small class="text-muted">El mensaje se abrirá en WhatsApp Web o la app de WhatsApp</small>
+                        </div>
+                        <div class="col-12">
+                            <div class="alert alert-info d-flex align-items-center">
+                                <i class="bi bi-info-circle me-2 fs-5"></i>
+                                <small>Se abrirá WhatsApp con el mensaje pre-escrito. Solo debes presionar enviar.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-whatsapp" onclick="enviarWhatsApp()">
+                        <i class="bi bi-whatsapp me-2"></i>Abrir en WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Flotante de Búsqueda -->
+    <button class="btn-floating-search" data-bs-toggle="modal" data-bs-target="#searchModal" title="Buscar contacto">
+        <i class="bi bi-search"></i>
+    </button>
+
+    <script>
+        function autocargarTelefono() {
+            const clienteSelect = document.getElementById('whatsappCliente');
+            const telefonoInput = document.getElementById('whatsappTelefono');
+            const selectedOption = clienteSelect.options[clienteSelect.selectedIndex];
+            const telefono = selectedOption.getAttribute('data-telefono');
+
+            if (telefono) {
+                telefonoInput.value = telefono;
+            }
+        }
+    </script>
+
+</body>
+</html>

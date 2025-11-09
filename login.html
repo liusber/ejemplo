@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CRM Automotriz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+        }
+        .left-section {
+            color: white;
+        }
+        .brand-card {
+            background: rgba(51, 65, 85, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .brand-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+        .brand-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .test-users {
+            background: rgba(51, 65, 85, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+        }
+        .btn-primary {
+            background: #3b82f6;
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+            transform: translateY(-2px);
+        }
+        .logo-icon {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container login-container">
+        <div class="row g-4 align-items-center">
+            <!-- Left Section -->
+            <div class="col-lg-6 left-section">
+                <div class="mb-4 d-flex align-items-center gap-3">
+                    <i class="bi bi-car-front-fill logo-icon" style="font-size: 3rem;"></i>
+                    <div>
+                        <img src="logo_syn.png" alt="Logo" style="height:150px">
+                        <p class="text-white-50 mb-0" style="text-align:center">Sistema de Gestión Multimarca</p>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <h2 class="h4 fw-semibold mb-4">Nuestras Marcas</h2>
+                    <div class="row g-3">
+                        <div class="col-4">
+                            <div class="brand-card">
+                                <div class="brand-icon">🏍️</div>
+                                <p class="fw-medium mb-0">Honda</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="brand-card">
+                                <div class="brand-icon">🚗</div>
+                                <p class="fw-medium mb-0">Kia</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="brand-card">
+                                <div class="brand-icon">🚙</div>
+                                <p class="fw-medium mb-0">Changan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-users mt-4">
+                    <h3 class="h6 fw-semibold mb-3">Usuarios de Prueba:</h3>
+                    <ul class="small text-white-50 mb-0">
+                        <li>• admin@crm.com - Administrador</li>
+                        <li>• gerente@crm.com - Gerente</li>
+                        <li>• asesor@crm.com - Asesor de Ventas</li>
+                        <li>• hostess@crm.com - Hostess/Recepción</li>
+                        <li class="text-secondary">Contraseña: cualquiera</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Section - Login Form -->
+            <div class="col-lg-6">
+                <div class="login-card p-5">
+                    <div class="mb-4">
+                        <h2 class="h3 fw-bold text-dark mb-2">Iniciar Sesión</h2>
+                        <p class="text-muted">Accede al sistema de gestión</p>
+                    </div>
+
+                    <form action="dashboard-asesor.html">
+                        <div class="mb-4">
+                            <label for="brand" class="form-label fw-medium text-dark">Marca</label>
+                            <select id="brand" class="form-select form-select-lg" required>
+                                <option value="">Seleccionar marca</option>
+                                <option value="honda">Honda</option>
+                                <option value="kia">Kia</option>
+                                <option value="changan">Changan</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="email" class="form-label fw-medium text-dark">Correo Electrónico</label>
+                            <input type="email" class="form-control form-control-lg" id="email"
+                                   placeholder="usuario@ejemplo.com" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-medium text-dark">Contraseña</label>
+                            <input type="password" class="form-control form-control-lg" id="password"
+                                   placeholder="••••••••" required>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="remember">
+                                <label class="form-check-label small" for="remember">Recordarme</label>
+                            </div>
+                            <a href="#" class="small text-primary text-decoration-none">¿Olvidaste tu contraseña?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Iniciar Sesión
+                        </button>
+                    </form>
+
+                    <div class="mt-4 text-center">
+                        <p class="small text-muted mb-0">© 2024 CRM Automotriz - Todos los derechos reservados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!-- Este es un componente de referencia del menú. Copiar y pegar en cada archivo -->
+
+<!-- Estilos del menú (va en el <head>) -->
+<style>
+    .top-nav {
+        background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%);
+    }
+    .top-nav .nav-link {
+        color: rgba(255,255,255,0.8);
+        padding: 0.75rem 1.25rem;
+        transition: all 0.3s;
+        border-bottom: 3px solid transparent;
+    }
+    .top-nav .nav-link:hover, .top-nav .nav-link.active {
+        color: white;
+        background: rgba(255,255,255,0.1);
+        border-bottom: 3px solid white;
+    }
+</style>
+
+<!-- HTML del menú (va después del <body>) -->
+<nav class="navbar navbar-expand-lg top-nav text-white shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white" href="dashboard-asesor.html">
+            <img src="logo_syn.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard-asesor.html">
+                        <i class="bi bi-speedometer2 d-block text-center" style="font-size: 1.5rem;"></i>
+                        <small>Dashboard</small>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard-general.html">
+                        <i class="bi bi-bar-chart-line d-block text-center" style="font-size: 1.5rem;"></i>
+                        <small>General</small>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tablero-oportunidades.html">
+                        <i class="bi bi-trophy d-block text-center" style="font-size: 1.5rem;"></i>
+                        <small>Oportunidades</small>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tablero-piso-hostess.html">
+                        <i class="bi bi-clipboard-check d-block text-center" style="font-size: 1.5rem;"></i>
+                        <small>Hostess</small>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="inventario.html">
+                        <i class="bi bi-car-front d-block text-center" style="font-size: 1.5rem;"></i>
+                        <small>Inventario</small>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-calendar-check d-block text-center" style="font-size: 1.5rem;"></i>
+                        <small>Agenda</small>
+                    </a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center text-white">
+                <span class="me-3"><i class="bi bi-bell fs-5"></i></span>
+                <div class="dropdown">
+                    <button class="btn btn-link text-white text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle me-1"></i>Usuario
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                        <li><a class="dropdown-item" href="#">Configuración</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html">Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

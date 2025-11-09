@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proceso de Venta - CRM Automotriz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
+    <style>
+        body {
+            font-size: 0.875rem;
+        }
+        .top-nav {
+            background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%);
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 0.75rem 1.25rem;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        .top-nav .nav-link:hover, .top-nav .nav-link.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            border-bottom: 3px solid white;
+        }
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+        .search-bar input {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding-right: 40px;
+        }
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        .process-tabs {
+            background: white;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 0;
+        }
+        .process-tabs .nav-tabs {
+            border-bottom: 2px solid #e5e7eb;
+            padding-left: 1rem;
+        }
+        .process-tabs .nav-link {
+            color: #6b7280;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+        }
+        .process-tabs .nav-link.active {
+            color: #1e40af;
+            background: transparent;
+            border-bottom: 3px solid #1e40af;
+        }
+        .agency-badges {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .agency-badge {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .agency-badge:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .agency-badge .count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: white;
+            color: #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .toolbar {
+            background: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .toolbar-left {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .toolbar-right {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .btn-toolbar {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            border: 1px solid #d1d5db;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-toolbar:hover {
+            background: #f9fafb;
+        }
+        .table-container {
+            background: white;
+            overflow-x: auto;
+        }
+        table.dataTable {
+            font-size: 0.813rem;
+            border-collapse: collapse;
+            width: 100% !important;
+        }
+        table.dataTable thead {
+            background: #1e293b;
+            color: white;
+        }
+        table.dataTable thead th {
+            padding: 0.75rem 0.5rem;
+            font-weight: 600;
+            border: 1px solid #334155;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 0.75rem;
+        }
+        table.dataTable tbody td {
+            padding: 0.5rem;
+            border: 1px solid #e5e7eb;
+            vertical-align: middle;
+        }
+        table.dataTable tbody tr:nth-child(odd) {
+            background: #ffffff;
+        }
+        table.dataTable tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        table.dataTable tbody tr:hover {
+            background: #f3f4f6;
+        }
+        .row-number {
+            background: #1e293b;
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            width: 40px;
+            border-radius: 50%;
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+        }
+        .vin-link {
+            color: #059669;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .vin-link:hover {
+            text-decoration: underline;
+        }
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .status-aprobado {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status-pendiente {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status-correccion {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .compact-cell {
+            font-size: 0.75rem;
+        }
+        .search-input {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            width: 250px;
+        }
+        .date-input {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 0.813rem;
+        }
+        .section-header {
+            background: #f1f5f9;
+            font-weight: 700;
+            text-align: center;
+        }
+        .dt-buttons {
+            display: none;
+        }
+    </style>
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .top-nav {
+            background: rgb(23, 37, 84);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-synch4 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 0.35rem 1rem;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        .logo-synch4:hover {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+            transform: translateY(-1px);
+        }
+        .logo-synch4 .logo-text {
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            border-radius: 6px;
+            margin: 0 0.15rem;
+            font-size: 0.85rem;
+        }
+        .top-nav .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 0.15rem;
+        }
+        .top-nav .nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .top-nav .nav-link.active {
+            color: white;
+            background: #3b82f6;
+            font-weight: 500;
+        }
+        .stat-card {
+            border-left: 4px solid;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.3);
+            padding: 0.35rem 0.5rem;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        .dropdown-toggle {
+            font-size: 0.9rem;
+        }
+        .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+        }
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            color: white;
+        }
+        .btn-floating-search {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1020;
+        }
+        .btn-floating-search:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg top-nav text-white shadow">
+        <div class="container-fluid" >
+            <a class="navbar-brand text-white" href="dashboard-asesor.html">
+                <img src="logo_syn.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-general.html">
+                            <i class="bi  bi-speedometer2 d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  " href="dashboard-asesor.html">
+                            <i class="bi bi-person-lines-fill  d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Asesor</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-oportunidades.html">
+                            <i class="bi bi-trophy d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Oportunidades</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-leads-internet.html">
+                            <i class="bi bi-globe d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Leads Internet</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="agenda.html">
+                            <i class="bi bi-calendar-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Agenda</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventario.html">
+                            <i class="bi bi-car-front d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Inventario</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="tablero-proceso-venta.html">
+                            <i class="bi bi-cart-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Proceso Venta</small>
+                    </a>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="precios-autos.html">
+                            <i class="bi bi-currency-dollar d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Precios</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="documentos.html">
+                            <i class="bi bi-folder d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Documentos</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-piso-hostess.html">
+                            <i class="bi bi-clipboard-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Hostess</small>
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="d-flex align-items-center text-white">
+
+                    <span class="me-3"><i class="bi bi-bell fs-5"></i></span>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-white text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>Roberto Díaz
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Process Tabs -->
+    <div class="process-tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#nuevos" type="button">
+                    Nuevos
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#demos" type="button">
+                    Demos / Seminuevos
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#calendario" type="button">
+                    Calendario de entregas
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#seguimiento" type="button">
+                    Seguimiento Contabilidad
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pld" type="button">
+                    PLD
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Agency Badges -->
+    <div class="agency-badges">
+        <span class="fw-bold text-dark me-2">Todas las agencias</span>
+        <div class="agency-badge">
+            TIJUANA
+            <span class="count">143</span>
+        </div>
+        <div class="agency-badge">
+            MEXICALI
+            <span class="count">78</span>
+        </div>
+        <div class="agency-badge">
+            ENSENADA
+            <span class="count">51</span>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <button class="btn btn-toolbar">
+                <i class="bi bi-layout-text-sidebar"></i>
+                Compacto
+                <i class="bi bi-check-lg text-success"></i>
+            </button>
+            <button class="btn btn-toolbar">
+                <i class="bi bi-layout-three-columns"></i>
+                Columnas
+            </button>
+            <button class="btn btn-toolbar" onclick="exportToExcel()">
+                <i class="bi bi-file-earmark-excel text-success"></i>
+                Exportar Xlsx
+            </button>
+            <button class="btn btn-toolbar" data-bs-toggle="modal" data-bs-target="#filtrosModal">
+                <i class="bi bi-funnel"></i>
+                FILTROS
+            </button>
+        </div>
+        <div class="toolbar-right">
+            <input type="text" class="search-input" placeholder="Buscar..." id="globalSearch">
+            <input type="date" class="date-input" placeholder="Fecha inicial">
+            <span class="mx-2">→</span>
+            <input type="date" class="date-input" placeholder="Fecha final">
+            <button class="btn btn-toolbar">
+                <i class="bi bi-calendar3"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="nuevos">
+            <div class="table-container">
+                <table id="ventasTable" class="table table-bordered table-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width: 40px;">#</th>
+                            <th colspan="6" class="section-header">Información de venta</th>
+                            <th colspan="8" class="section-header">Orden de Compra</th>
+                        </tr>
+                        <tr>
+                            <!-- Información de venta -->
+                            <th>Asesor</th>
+                            <th>Tipo</th>
+                            <th>Vehículo</th>
+                            <th>Año</th>
+                            <th>Color</th>
+                            <th>Vin</th>
+                            <!-- Orden de Compra -->
+                            <th>Financiera</th>
+                            <th>Gerente</th>
+                            <th>Seguro</th>
+                            <th>Facturación</th>
+                            <th>Asesor</th>
+                            <th>Gerente</th>
+                            <th>PLD</th>
+                            <th>Contabilidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center"><span class="row-number">1</span></td>
+                            <td class="compact-cell">Josue Eduardo</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">CR-V STOURING HEV AWD</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">AZUL ANTARTIDA</td>
+                            <td><a href="pedido.html?vin=1HGRS6893TL900242" class="vin-link">1HGRS6893TL900242</a></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">2</span></td>
+                            <td class="compact-cell">Estefanía Solano</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">HR-V TOURING CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">PLATA SOLAR</td>
+                            <td><a href="pedido.html?vin=3HGRZ1877TM003114" class="vin-link">3HGRZ1877TM003114</a></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-correccion">Corrección</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">3</span></td>
+                            <td class="compact-cell">Estefanía Solano</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">HR-V TOURING CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">GRIS COSMICO</td>
+                            <td><a href="pedido.html?vin=3HGRZ1876TM005243" class="vin-link">3HGRZ1876TM005243</a></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-correccion">Corrección</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">4</span></td>
+                            <td class="compact-cell">Virginia Corrales</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">CRV TOURING CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">AZUL ANTARTIDA</td>
+                            <td><a href="pedido.html?vin=1HGRS3895TL901049" class="vin-link">1HGRS3895TL901049</a></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-correccion">Corrección</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">5</span></td>
+                            <td class="compact-cell">Alejandro Uriarte</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">CRV TOURING CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">PLATA SOLAR</td>
+                            <td><a href="pedido.html?vin=1HGRS3894TL901463" class="vin-link">1HGRS3894TL901463</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">6</span></td>
+                            <td class="compact-cell">Jose Franco</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">HR-V TOURING CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">GRIS COSMICO</td>
+                            <td><a href="pedido.html?vin=3HGRZ1876TM005226" class="vin-link">3HGRZ1876TM005226</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">7</span></td>
+                            <td class="compact-cell">Mahonri Daniela</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">HR-V TOURING CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">BLANCO PLATINO</td>
+                            <td><a href="pedido.html?vin=3HGRZ1879TM002174" class="vin-link">3HGRZ1879TM002174</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">8</span></td>
+                            <td class="compact-cell">Kevin Joel Brito</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">CR-V STOURING HEV AWD</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">GRIS METEORO</td>
+                            <td><a href="pedido.html?vin=1HGRS6899TL900679" class="vin-link">1HGRS6899TL900679</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">9</span></td>
+                            <td class="compact-cell">Jose Miguel</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">ACCORD TOURING HEV</td>
+                            <td class="compact-cell">2025</td>
+                            <td class="compact-cell">BLANCO PLATINO</td>
+                            <td><a href="pedido.html?vin=1HGCY2687SA900052" class="vin-link">1HGCY2687SA900052</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">10</span></td>
+                            <td class="compact-cell">Maricruz Fuentes</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">CRV TOURING CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">GRIS METEORO</td>
+                            <td><a href="pedido.html?vin=1HGRS389XTL900978" class="vin-link">1HGRS389XTL900978</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">11</span></td>
+                            <td class="compact-cell">Jose Franco</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">CR-V STOURING HEV AWD</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">AZUL ANTARTIDA</td>
+                            <td><a href="pedido.html?vin=1HGRS6899TL900231" class="vin-link">1HGRS6899TL900231</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">12</span></td>
+                            <td class="compact-cell">Gabriela Sanchez</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">HR-V TOURING CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">GRIS COSMICO</td>
+                            <td><a href="pedido.html?vin=3HGRZ1876TM004867" class="vin-link">3HGRZ1876TM004867</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">13</span></td>
+                            <td class="compact-cell">Jose Miguel</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">BR-V TOURING</td>
+                            <td class="compact-cell">2025</td>
+                            <td class="compact-cell">GRIS METEORO</td>
+                            <td><a href="pedido.html?vin=MHRDG3880SJ063046" class="vin-link">MHRDG3880SJ063046</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">14</span></td>
+                            <td class="compact-cell">Clarisa Ayala</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">BR-V TOURING</td>
+                            <td class="compact-cell">2025</td>
+                            <td class="compact-cell">GRIS METEORO</td>
+                            <td><a href="pedido.html?vin=MHRDG3881SJ062875" class="vin-link">MHRDG3881SJ062875</a></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">15</span></td>
+                            <td class="compact-cell">Martha Gabriela</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">HR-V TOURING CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">VERDE NORDICO</td>
+                            <td><a href="pedido.html?vin=3HGRZ1877TM004909" class="vin-link">3HGRZ1877TM004909</a></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center"><span class="row-number">16</span></td>
+                            <td class="compact-cell">Marco Antonio</td>
+                            <td class="compact-cell">Física</td>
+                            <td class="compact-cell">CITY SEDAN SPORT CVT</td>
+                            <td class="compact-cell">2026</td>
+                            <td class="compact-cell">GRIS METEORO</td>
+                            <td><a href="pedido.html?vin=MAKGN2653T4300158" class="vin-link">MAKGN2653T4300158</a></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-aprobado">Aprobado</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                            <td><span class="status-badge status-pendiente">Pendiente</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="demos">
+            <div class="p-5 text-center">
+                <h5>Demos / Seminuevos</h5>
+                <p class="text-muted">Contenido en desarrollo</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="calendario">
+            <div class="p-5 text-center">
+                <h5>Calendario de Entregas</h5>
+                <p class="text-muted">Contenido en desarrollo</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="seguimiento">
+            <div class="p-5 text-center">
+                <h5>Seguimiento Contabilidad</h5>
+                <p class="text-muted">Contenido en desarrollo</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pld">
+            <div class="p-5 text-center">
+                <h5>PLD</h5>
+                <p class="text-muted">Contenido en desarrollo</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Filtros -->
+    <div class="modal fade" id="filtrosModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filtros Avanzados</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Asesor</label>
+                        <select class="form-select">
+                            <option value="">Todos</option>
+                            <option>Josue Eduardo</option>
+                            <option>Estefanía Solano</option>
+                            <option>Virginia Corrales</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select">
+                            <option value="">Todos</option>
+                            <option>Aprobado</option>
+                            <option>Pendiente</option>
+                            <option>Corrección</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Vehículo</label>
+                        <input type="text" class="form-control" placeholder="Buscar vehículo...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Aplicar Filtros</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+    <script>
+        let table;
+
+        $(document).ready(function() {
+            table = $('#ventasTable').DataTable({
+                paging: false,
+                searching: true,
+                ordering: true,
+                info: true,
+                fixedHeader: true,
+                language: {
+                    search: "Buscar:",
+                    info: "Mostrando _TOTAL_ pedidos",
+                    infoEmpty: "No hay pedidos disponibles",
+                    infoFiltered: "(filtrado de _MAX_ pedidos totales)",
+                    zeroRecords: "No se encontraron pedidos"
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: 'Exportar Excel',
+                        className: 'btn btn-success d-none'
+                    }
+                ],
+                order: [[0, 'asc']],
+                columnDefs: [
+                    { orderable: false, targets: 0 }
+                ]
+            });
+
+            $('#globalSearch').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+        });
+
+        function exportToExcel() {
+            table.button('.buttons-excel').trigger();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora de Contacto - CRM Automotriz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .top-nav {
+            background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%);
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 0.75rem 1.25rem;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        .top-nav .nav-link:hover, .top-nav .nav-link.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            border-bottom: 3px solid white;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #3b82f6;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+        .timeline-item.completed::before {
+            background: #10b981;
+            box-shadow: 0 0 0 2px #10b981;
+        }
+        .timeline-item.pending::before {
+            background: #f59e0b;
+            box-shadow: 0 0 0 2px #f59e0b;
+        }
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+        .search-bar input {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding-right: 40px;
+        }
+        .search-bar input:focus {
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+        }
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        .folder-link {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .folder-link:hover {
+            background: #e5e7eb;
+        }
+        .folder-link.active {
+            background: #dbeafe;
+            border-left: 3px solid #3b82f6;
+        }
+        .cursor-pointer {
+            cursor: pointer;
+        }
+    </style>
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .top-nav {
+            background: rgb(23, 37, 84);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-synch4 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 0.35rem 1rem;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        .logo-synch4:hover {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+            transform: translateY(-1px);
+        }
+        .logo-synch4 .logo-text {
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            border-radius: 6px;
+            margin: 0 0.15rem;
+            font-size: 0.85rem;
+        }
+        .top-nav .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 0.15rem;
+        }
+        .top-nav .nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .top-nav .nav-link.active {
+            color: white;
+            background: #3b82f6;
+            font-weight: 500;
+        }
+        .stat-card {
+            border-left: 4px solid;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.3);
+            padding: 0.35rem 0.5rem;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        .dropdown-toggle {
+            font-size: 0.9rem;
+        }
+        .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+        }
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            color: white;
+        }
+        .btn-floating-search {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1020;
+        }
+        .btn-floating-search:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg top-nav text-white shadow">
+        <div class="container-fluid" >
+            <a class="navbar-brand text-white" href="dashboard-asesor.html">
+                <img src="logo_syn.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-general.html">
+                            <i class="bi  bi-speedometer2 d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  " href="dashboard-asesor.html">
+                            <i class="bi bi-person-lines-fill  d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Asesor</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="tablero-oportunidades.html">
+                            <i class="bi bi-trophy d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Oportunidades</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-leads-internet.html">
+                            <i class="bi bi-globe d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Leads Internet</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="agenda.html">
+                            <i class="bi bi-calendar-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Agenda</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventario.html">
+                            <i class="bi bi-car-front d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Inventario</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-proceso-venta.html">
+                            <i class="bi bi-cart-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Proceso Venta</small>
+                    </a>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="precios-autos.html">
+                            <i class="bi bi-currency-dollar d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Precios</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="documentos.html">
+                            <i class="bi bi-folder d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Documentos</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-piso-hostess.html">
+                            <i class="bi bi-clipboard-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Hostess</small>
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="d-flex align-items-center text-white">
+
+                    <span class="me-3"><i class="bi bi-bell fs-5"></i></span>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-white text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>Roberto Díaz
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="padding-top:20px">
+        <div class="p-4">
+            <a href="tablero-oportunidades.html" class="btn btn-outline-primary mb-3">
+                <i class="bi bi-arrow-left me-1"></i> Volver a Oportunidades
+            </a>
+                    <div class="row">
+                        <!-- Información del Contacto -->
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Información del Contacto</h5>
+                                    <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#editContactModal">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="mb-3">María González</h4>
+                                    <p class="mb-2"><i class="bi bi-envelope me-2 text-primary"></i>maria.gonzalez@email.com</p>
+                                    <p class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i>222-555-0123</p>
+                                    <p class="mb-2"><i class="bi bi-whatsapp me-2 text-success"></i>Preferencia: WhatsApp</p>
+                                    <p class="mb-2"><i class="bi bi-geo-alt me-2 text-danger"></i>Puebla</p>
+                                    <p class="mb-3"><i class="bi bi-calendar me-2 text-warning"></i>15 Mayo (Cumpleaños)</p>
+                                    <div class="mb-3">
+                                        <span class="badge bg-warning fs-6">Caliente</span>
+                                        <span class="badge bg-info fs-6 ms-2">Nuevo</span>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-sm btn-outline-primary flex-fill" data-bs-toggle="modal" data-bs-target="#transferModal">
+                                            <i class="bi bi-arrow-left-right me-1"></i>Transferir
+                                        </button>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <strong>Asesor Asignado:</strong>
+                                        <p class="mb-0">Juan Pérez</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notas -->
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h6 class="mb-0"><i class="bi bi-sticky me-2"></i>Notas</h6>
+                                </div>
+                                <div class="card-body">
+                                    <textarea class="form-control" rows="4" placeholder="Agregar notas sobre el contacto...">Cliente muy interesado. Requiere financiamiento.</textarea>
+                                    <button class="btn btn-primary btn-sm mt-2 w-100">Guardar Nota</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Oportunidades y Bitácora -->
+                        <div class="col-md-8">
+                            <!-- Oportunidades Abiertas -->
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0"><i class="bi bi-trophy me-2 text-warning"></i>Oportunidades Abiertas</h5>
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#newOppModal">
+                                        <i class="bi bi-plus-lg me-1"></i>Nueva Oportunidad
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card mb-2 border-start border-4 border-warning">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-2">Honda CR-V Touring 2024</h6>
+                                                    <p class="text-muted mb-1"><small>Valor estimado: <strong>$680,000</strong></small></p>
+                                                    <p class="text-muted mb-1"><small>Probabilidad: <strong>75%</strong></small></p>
+                                                    <p class="text-muted mb-0"><small>Cierre esperado: 30 Oct 2025</small></p>
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#newActivityModal">
+                                                        <i class="bi bi-plus-lg"></i> Actividad
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-file-earmark-text"></i> Cotizar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Oportunidades Cerradas -->
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-header bg-white">
+                                    <h6 class="mb-0"><i class="bi bi-archive me-2"></i>Oportunidades Cerradas</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card mb-2 border-start border-4 border-success">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <h6 class="mb-1">Honda Civic LX 2023 <span class="badge bg-success">Ganada</span></h6>
+                                                    <p class="text-muted mb-0"><small>Cerrada: 15 Sep 2024 - Valor: $450,000</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Archivos de la Oportunidad -->
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="bi bi-folder-fill me-2"></i>Archivos de la Oportunidad</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="row g-0">
+                                        <!-- Carpetas - Lado Izquierdo -->
+                                        <div class="col-md-4 border-end">
+                                            <div class="p-3" style="background: #f8f9fa;">
+                                                <h6 class="text-muted mb-3">Carpetas</h6>
+                                                <div id="folderTree">
+                                                    <!-- INE -->
+                                                    <div class="folder-tree-item mb-2" data-folder="ine" onclick="selectFolder('ine')">
+                                                        <div class="d-flex align-items-center p-2 rounded cursor-pointer folder-link">
+                                                            <i class="bi bi-folder-fill text-warning me-2"></i>
+                                                            <span class="folder-label">INE</span>
+                                                            <span class="badge bg-secondary ms-auto">2</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Licencia -->
+                                                    <div class="folder-tree-item mb-2" data-folder="licencia" onclick="selectFolder('licencia')">
+                                                        <div class="d-flex align-items-center p-2 rounded cursor-pointer folder-link">
+                                                            <i class="bi bi-folder-fill text-warning me-2"></i>
+                                                            <span class="folder-label">Licencia</span>
+                                                            <span class="badge bg-secondary ms-auto">1</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Factura -->
+                                                    <div class="folder-tree-item mb-2" data-folder="factura" onclick="selectFolder('factura')">
+                                                        <div class="d-flex align-items-center p-2 rounded cursor-pointer folder-link">
+                                                            <i class="bi bi-folder-fill text-warning me-2"></i>
+                                                            <span class="folder-label">Factura</span>
+                                                            <span class="badge bg-secondary ms-auto">3</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Póliza -->
+                                                    <div class="folder-tree-item mb-2" data-folder="poliza" onclick="selectFolder('poliza')">
+                                                        <div class="d-flex align-items-center p-2 rounded cursor-pointer folder-link">
+                                                            <i class="bi bi-folder-fill text-warning me-2"></i>
+                                                            <span class="folder-label">Póliza</span>
+                                                            <span class="badge bg-secondary ms-auto">1</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Antilavado -->
+                                                    <div class="folder-tree-item mb-2" data-folder="antilavado" onclick="selectFolder('antilavado')">
+                                                        <div class="d-flex align-items-center p-2 rounded cursor-pointer folder-link">
+                                                            <i class="bi bi-folder-fill text-warning me-2"></i>
+                                                            <span class="folder-label">Antilavado</span>
+                                                            <span class="badge bg-secondary ms-auto">1</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Recibos de Pago -->
+                                                    <div class="folder-tree-item mb-2" data-folder="recibos-pago" onclick="selectFolder('recibos-pago')">
+                                                        <div class="d-flex align-items-center p-2 rounded cursor-pointer folder-link">
+                                                            <i class="bi bi-folder-fill text-warning me-2"></i>
+                                                            <span class="folder-label">Recibos de Pago</span>
+                                                            <span class="badge bg-secondary ms-auto">5</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Pedido -->
+                                                    <div class="folder-tree-item mb-2" data-folder="pedido" onclick="selectFolder('pedido')">
+                                                        <div class="d-flex align-items-center p-2 rounded cursor-pointer folder-link">
+                                                            <i class="bi bi-folder-fill text-warning me-2"></i>
+                                                            <span class="folder-label">Pedido</span>
+                                                            <span class="badge bg-secondary ms-auto">2</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Documentos - Lado Derecho -->
+                                        <div class="col-md-8">
+                                            <div class="p-3">
+                                                <div id="documentViewer">
+                                                    <!-- Estado inicial -->
+                                                    <div id="initialState" class="text-center py-5">
+                                                        <i class="bi bi-folder2-open text-muted" style="font-size: 4rem;"></i>
+                                                        <p class="text-muted mt-3">Selecciona una carpeta para ver los documentos</p>
+                                                    </div>
+
+                                                    <!-- Contenido INE -->
+                                                    <div id="folder-ine" class="folder-content" style="display: none;">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <h6 class="mb-0"><i class="bi bi-folder-fill text-warning me-2"></i>INE</h6>
+                                                            <button class="btn btn-sm btn-primary" onclick="uploadDocument('ine')">
+                                                                <i class="bi bi-cloud-upload me-1"></i>Subir Documento
+                                                            </button>
+                                                        </div>
+                                                        <div class="list-group">
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">INE_Frente.pdf</h6>
+                                                                        <small class="text-muted">250 KB - Subido el 20 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('INE_Frente.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('INE_Frente.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">INE_Reverso.pdf</h6>
+                                                                        <small class="text-muted">245 KB - Subido el 20 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('INE_Reverso.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('INE_Reverso.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Contenido Licencia -->
+                                                    <div id="folder-licencia" class="folder-content" style="display: none;">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <h6 class="mb-0"><i class="bi bi-folder-fill text-warning me-2"></i>Licencia</h6>
+                                                            <button class="btn btn-sm btn-primary" onclick="uploadDocument('licencia')">
+                                                                <i class="bi bi-cloud-upload me-1"></i>Subir Documento
+                                                            </button>
+                                                        </div>
+                                                        <div class="list-group">
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Licencia_Conducir.pdf</h6>
+                                                                        <small class="text-muted">320 KB - Subido el 18 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Licencia_Conducir.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Licencia_Conducir.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Contenido Factura -->
+                                                    <div id="folder-factura" class="folder-content" style="display: none;">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <h6 class="mb-0"><i class="bi bi-folder-fill text-warning me-2"></i>Factura</h6>
+                                                            <button class="btn btn-sm btn-primary" onclick="uploadDocument('factura')">
+                                                                <i class="bi bi-cloud-upload me-1"></i>Subir Documento
+                                                            </button>
+                                                        </div>
+                                                        <div class="list-group">
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Factura_Vehiculo.pdf</h6>
+                                                                        <small class="text-muted">450 KB - Subido el 22 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Factura_Vehiculo.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Factura_Vehiculo.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Constancia_Fiscal.pdf</h6>
+                                                                        <small class="text-muted">180 KB - Subido el 22 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Constancia_Fiscal.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Constancia_Fiscal.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Comprobante_Domicilio.pdf</h6>
+                                                                        <small class="text-muted">220 KB - Subido el 22 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Comprobante_Domicilio.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Comprobante_Domicilio.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Contenido Póliza -->
+                                                    <div id="folder-poliza" class="folder-content" style="display: none;">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <h6 class="mb-0"><i class="bi bi-folder-fill text-warning me-2"></i>Póliza</h6>
+                                                            <button class="btn btn-sm btn-primary" onclick="uploadDocument('poliza')">
+                                                                <i class="bi bi-cloud-upload me-1"></i>Subir Documento
+                                                            </button>
+                                                        </div>
+                                                        <div class="list-group">
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Poliza_Seguro.pdf</h6>
+                                                                        <small class="text-muted">680 KB - Subido el 21 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Poliza_Seguro.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Poliza_Seguro.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Contenido Antilavado -->
+                                                    <div id="folder-antilavado" class="folder-content" style="display: none;">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <h6 class="mb-0"><i class="bi bi-folder-fill text-warning me-2"></i>Antilavado</h6>
+                                                            <button class="btn btn-sm btn-primary" onclick="uploadDocument('antilavado')">
+                                                                <i class="bi bi-cloud-upload me-1"></i>Subir Documento
+                                                            </button>
+                                                        </div>
+                                                        <div class="list-group">
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Formato_PLD.pdf</h6>
+                                                                        <small class="text-muted">540 KB - Subido el 19 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Formato_PLD.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Formato_PLD.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Contenido Recibos de Pago -->
+                                                    <div id="folder-recibos-pago" class="folder-content" style="display: none;">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <h6 class="mb-0"><i class="bi bi-folder-fill text-warning me-2"></i>Recibos de Pago</h6>
+                                                            <button class="btn btn-sm btn-primary" onclick="uploadDocument('recibos-pago')">
+                                                                <i class="bi bi-cloud-upload me-1"></i>Subir Documento
+                                                            </button>
+                                                        </div>
+                                                        <div class="list-group">
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Recibo_Nomina_Octubre.pdf</h6>
+                                                                        <small class="text-muted">280 KB - Subido el 20 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Recibo_Nomina_Octubre.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Recibo_Nomina_Octubre.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Recibo_Nomina_Septiembre.pdf</h6>
+                                                                        <small class="text-muted">275 KB - Subido el 20 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Recibo_Nomina_Septiembre.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Recibo_Nomina_Septiembre.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Recibo_Nomina_Agosto.pdf</h6>
+                                                                        <small class="text-muted">272 KB - Subido el 20 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Recibo_Nomina_Agosto.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Recibo_Nomina_Agosto.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Estado_Cuenta_Bancario.pdf</h6>
+                                                                        <small class="text-muted">890 KB - Subido el 20 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Estado_Cuenta_Bancario.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Estado_Cuenta_Bancario.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Comprobante_Ingresos.pdf</h6>
+                                                                        <small class="text-muted">420 KB - Subido el 20 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Comprobante_Ingresos.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Comprobante_Ingresos.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Contenido Pedido -->
+                                                    <div id="folder-pedido" class="folder-content" style="display: none;">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <h6 class="mb-0"><i class="bi bi-folder-fill text-warning me-2"></i>Pedido</h6>
+                                                            <button class="btn btn-sm btn-primary" onclick="uploadDocument('pedido')">
+                                                                <i class="bi bi-cloud-upload me-1"></i>Subir Documento
+                                                            </button>
+                                                        </div>
+                                                        <div class="list-group">
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Orden_Compra.pdf</h6>
+                                                                        <small class="text-muted">380 KB - Subido el 23 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Orden_Compra.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Orden_Compra.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="bi bi-file-pdf text-danger fs-4 me-3"></i>
+                                                                    <div>
+                                                                        <h6 class="mb-0">Contrato_Compraventa.pdf</h6>
+                                                                        <small class="text-muted">950 KB - Subido el 23 Oct 2025</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument('Contrato_Compraventa.pdf')">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('Contrato_Compraventa.pdf')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bitácora de Actividades -->
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="bi bi-journal-text me-2"></i>Bitácora de Actividades</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="timeline">
+                                        <!-- Actividad Pendiente -->
+                                        <div class="timeline-item pending">
+                                            <div class="card border-warning mb-3">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                                        <div>
+                                                            <span class="badge bg-danger me-2">Cita</span>
+                                                            <span class="badge bg-warning">Pendiente</span>
+                                                        </div>
+                                                        <small class="text-muted">23 Oct 2025, 10:00 AM</small>
+                                                    </div>
+                                                    <h6>Prueba de manejo - Honda CR-V</h6>
+                                                    <p class="mb-2 text-muted">Cliente solicitó prueba de manejo para comparar con otras opciones.</p>
+                                                    <div class="d-flex gap-2">
+                                                        <button class="btn btn-sm btn-success"><i class="bi bi-check2"></i> Completar</button>
+                                                        <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Editar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Actividad Completada -->
+                                        <div class="timeline-item completed">
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                                        <div>
+                                                            <span class="badge bg-primary me-2">Tarea</span>
+                                                            <span class="badge bg-success">Completada</span>
+                                                        </div>
+                                                        <small class="text-muted">20 Oct 2025, 3:00 PM</small>
+                                                    </div>
+                                                    <h6>Seguimiento cotización</h6>
+                                                    <p class="mb-0 text-muted">Se envió cotización detallada con opciones de financiamiento. Cliente interesado en plan a 48 meses.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Actividad Completada -->
+                                        <div class="timeline-item completed">
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                                        <div>
+                                                            <span class="badge bg-primary me-2">Tarea</span>
+                                                            <span class="badge bg-success">Completada</span>
+                                                        </div>
+                                                        <small class="text-muted">18 Oct 2025, 11:30 AM</small>
+                                                    </div>
+                                                    <h6>Llamada de seguimiento</h6>
+                                                    <p class="mb-0 text-muted">Primera llamada. Cliente muy interesado en CR-V. Solicitó información sobre colores disponibles.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Actividad Completada -->
+                                        <div class="timeline-item completed">
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                                        <div>
+                                                            <span class="badge bg-danger me-2">Cita</span>
+                                                            <span class="badge bg-success">Completada</span>
+                                                        </div>
+                                                        <small class="text-muted">15 Oct 2025, 2:00 PM</small>
+                                                    </div>
+                                                    <h6>Visita a agencia</h6>
+                                                    <p class="mb-0 text-muted">Cliente llegó a agencia. Se mostró inventario de CR-V. Interés alto.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva Actividad -->
+    <div class="modal fade" id="newActivityModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nueva Actividad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Actividad</label>
+                            <select class="form-select" required>
+                                <option value="">Seleccionar...</option>
+                                <option>Tarea</option>
+                                <option>Cita</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tipo</label>
+                            <select class="form-select" required>
+                                <option value="">Seleccionar...</option>
+                                <option>Llamada</option>
+                                <option>Email</option>
+                                <option>Visita</option>
+                                <option>Reunión</option>
+                                <option>Prueba de Manejo</option>
+                                <option>Entrega</option>
+                                <option>Seguimiento</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fecha Promesa</label>
+                            <input type="datetime-local" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Título</label>
+                            <input type="text" class="form-control" placeholder="Ej: Seguimiento cotización" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-control" rows="3" placeholder="Detalles de la actividad..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar Actividad</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Transferir Contacto -->
+    <div class="modal fade" id="transferModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Transferir Contacto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Nuevo Asesor de Ventas</label>
+                            <select class="form-select" required>
+                                <option value="">Seleccionar asesor...</option>
+                                <option>María López</option>
+                                <option>Carlos Gómez</option>
+                                <option>Ana Rodríguez</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Motivo de Transferencia</label>
+                            <textarea class="form-control" rows="3" placeholder="Razón de la transferencia..." required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Transferir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const contactos = [
+            { id: 1, nombre: "María González", telefono: "222-123-4567", email: "maria.gonzalez@email.com", ciudad: "Puebla", interes: "Honda CR-V Touring 2024", asesor: "Juan Pérez" },
+            { id: 2, nombre: "Carlos Ramírez", telefono: "222-234-5678", email: "carlos.ramirez@email.com", ciudad: "Puebla", interes: "KIA Sportage EX 2024", asesor: "Juan Pérez" },
+            { id: 3, nombre: "Ana Martínez", telefono: "555-345-6789", email: "ana.martinez@email.com", ciudad: "CDMX", interes: "Mazda CX-5 Grand Touring 2024", asesor: "María López" },
+            { id: 4, nombre: "Pedro López", telefono: "333-456-7890", email: "pedro.lopez@email.com", ciudad: "Guadalajara", interes: "Toyota RAV4 Limited 2024", asesor: "Carlos Gómez" },
+            { id: 5, nombre: "Laura Sánchez", telefono: "222-567-8901", email: "laura.sanchez@email.com", ciudad: "Puebla", interes: "Changan CS35 Plus Elite 2024", asesor: "Juan Pérez" },
+            { id: 6, nombre: "Roberto Díaz", telefono: "555-678-9012", email: "roberto.diaz@email.com", ciudad: "CDMX", interes: "Nissan Kicks Exclusive 2024", asesor: "María López" }
+        ];
+        function searchContacts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('searchResults');
+            if (searchTerm === '') {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-search fs-1"></i><p class="mt-3">Ingresa un nombre, teléfono o correo para buscar</p></div>';
+                return;
+            }
+            const results = contactos.filter(contacto => contacto.nombre.toLowerCase().includes(searchTerm) || contacto.telefono.includes(searchTerm) || contacto.email.toLowerCase().includes(searchTerm));
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-inbox fs-1"></i><p class="mt-3">No se encontraron contactos</p></div>';
+                return;
+            }
+            let html = '<div class="table-responsive"><table class="table table-hover"><thead class="table-light"><tr><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Ciudad</th><th>Interés</th><th>Asesor</th><th>Acción</th></tr></thead><tbody>';
+            results.forEach(contacto => {
+                html += '<tr><td><strong>' + contacto.nombre + '</strong></td><td><i class="bi bi-telephone me-1"></i>' + contacto.telefono + '</td><td><i class="bi bi-envelope me-1"></i>' + contacto.email + '</td><td><i class="bi bi-geo-alt me-1"></i>' + contacto.ciudad + '</td><td><small>' + contacto.interes + '</small></td><td><small>' + contacto.asesor + '</small></td><td><a href="bitacora-contacto.html?contacto=' + contacto.id + '" class="btn btn-sm btn-primary"><i class="bi bi-journal-text me-1"></i>Ver Bitácora</a></td></tr>';
+            });
+            html += '</tbody></table></div>';
+            resultsDiv.innerHTML = html;
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') { searchContacts(); }
+                });
+            }
+        });
+
+        // Función para seleccionar carpeta y mostrar documentos
+        function selectFolder(folderId) {
+            // Ocultar estado inicial
+            document.getElementById('initialState').style.display = 'none';
+
+            // Ocultar todos los contenidos de carpetas
+            const allFolders = document.querySelectorAll('.folder-content');
+            allFolders.forEach(folder => {
+                folder.style.display = 'none';
+            });
+
+            // Mostrar el contenido de la carpeta seleccionada
+            const selectedFolder = document.getElementById('folder-' + folderId);
+            if (selectedFolder) {
+                selectedFolder.style.display = 'block';
+            }
+
+            // Quitar clase active de todos los links
+            const allLinks = document.querySelectorAll('.folder-link');
+            allLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Agregar clase active al link seleccionado
+            const selectedItem = document.querySelector('[data-folder="' + folderId + '"] .folder-link');
+            if (selectedItem) {
+                selectedItem.classList.add('active');
+            }
+        }
+
+        // Función para subir documento
+        function uploadDocument(folder) {
+            alert('Función de subir documento para la carpeta: ' + folder + '\n\nEsta funcionalidad se integrará con el backend.');
+        }
+
+        // Función para ver documento
+        function viewDocument(filename) {
+            alert('Abriendo documento: ' + filename + '\n\nEsta funcionalidad mostrará el documento en un visor PDF.');
+        }
+
+        // Función para eliminar documento
+        function deleteDocument(filename) {
+            if (confirm('¿Estás seguro de que deseas eliminar el documento: ' + filename + '?')) {
+                alert('Documento eliminado: ' + filename);
+            }
+        }
+    </script>
+</body>
+</html>

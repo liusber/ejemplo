@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manuales y Políticas - CRM Automotriz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        .top-nav {
+            background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%);
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 0.75rem 1.25rem;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        .top-nav .nav-link:hover, .top-nav .nav-link.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            border-bottom: 3px solid white;
+        }
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+        .search-bar input {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding-right: 40px;
+        }
+        .search-bar input:focus {
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+        }
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        .folder-tree {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .folder-item {
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .folder-item:hover {
+            background: #f3f4f6;
+        }
+        .folder-item.expanded {
+            background: #eff6ff;
+        }
+        .folder-icon {
+            color: #f59e0b;
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+        .folder-content {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        .folder-name {
+            font-weight: 500;
+            color: #374151;
+        }
+        .folder-count {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-left: auto;
+            margin-right: 1rem;
+        }
+        .folder-actions {
+            color: #6b7280;
+            font-size: 1.2rem;
+        }
+        .subfolder {
+            margin-left: 2rem;
+            display: none;
+        }
+        .subfolder.show {
+            display: block;
+        }
+        .chevron {
+            transition: transform 0.2s;
+            margin-right: 0.5rem;
+            color: #6b7280;
+        }
+        .chevron.rotated {
+            transform: rotate(90deg);
+        }
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .top-nav {
+            background: rgb(23, 37, 84);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .logo-synch4 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 0.35rem 1rem;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        .logo-synch4:hover {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+            transform: translateY(-1px);
+        }
+        .logo-synch4 .logo-text {
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .top-nav .nav-link {
+            color: rgba(255,255,255,0.7);
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            border-radius: 6px;
+            margin: 0 0.15rem;
+            font-size: 0.85rem;
+        }
+        .top-nav .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 0.15rem;
+        }
+        .top-nav .nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .top-nav .nav-link.active {
+            color: white;
+            background: #3b82f6;
+            font-weight: 500;
+        }
+        .stat-card {
+            border-left: 4px solid;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.3);
+            padding: 0.35rem 0.5rem;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        .dropdown-toggle {
+            font-size: 0.9rem;
+        }
+        .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+        }
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            color: white;
+        }
+        .btn-floating-search {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1020;
+        }
+        .btn-floating-search:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg top-nav text-white shadow">
+        <div class="container-fluid" >
+            <a class="navbar-brand text-white" href="dashboard-asesor.html">
+                <img src="logo_syn.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-general.html">
+                            <i class="bi  bi-speedometer2 d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  " href="dashboard-asesor.html">
+                            <i class="bi bi-person-lines-fill  d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Asesor</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-oportunidades.html">
+                            <i class="bi bi-trophy d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Oportunidades</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-leads-internet.html">
+                            <i class="bi bi-globe d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Leads Internet</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="agenda.html">
+                            <i class="bi bi-calendar-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Agenda</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventario.html">
+                            <i class="bi bi-car-front d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Inventario</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-proceso-venta.html">
+                            <i class="bi bi-cart-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Proceso Venta</small>
+                    </a>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="precios-autos.html">
+                            <i class="bi bi-currency-dollar d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Precios</small>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="documentos.html">
+                            <i class="bi bi-folder d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Documentos</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablero-piso-hostess.html">
+                            <i class="bi bi-clipboard-check d-block text-center" style="font-size: 1.5rem;"></i>
+                            <small>Hostess</small>
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="d-flex align-items-center text-white">
+
+                    <span class="me-3"><i class="bi bi-bell fs-5"></i></span>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-white text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>Roberto Díaz
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="padding-top:20px">
+        <div class="p-4">
+            <!-- Header -->
+
+
+            <!-- Folder Tree -->
+            <div class="folder-tree">
+                <h5 class="mb-4 text-muted">Archivos</h5>
+
+                <!-- Manuales y Políticas - Carpeta Principal -->
+                <div class="folder-section">
+                    <div class="folder-item" onclick="toggleFolder('main-folder')">
+                        <div class="folder-content">
+                            <i class="bi bi-chevron-right chevron" id="chevron-main-folder"></i>
+                            <i class="bi bi-folder-fill folder-icon"></i>
+                            <span class="folder-name">Manuales y Políticas</span>
+                        </div>
+                        <span class="folder-count">16</span>
+                        <i class="bi bi-three-dots folder-actions"></i>
+                    </div>
+
+                    <!-- Subcarpetas -->
+                    <div class="subfolder" id="main-folder">
+                        <!-- Cotización Express -->
+                        <div class="folder-item" onclick="toggleFolder('cotizacion-express')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-cotizacion-express"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Cotización Express</span>
+                            </div>
+                            <span class="folder-count">15</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Brochure - Ficha Técnica HDM -->
+                        <div class="folder-item" onclick="toggleFolder('brochure')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-brochure"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Brochure - Ficha Técnica HDM</span>
+                            </div>
+                            <span class="folder-count">12</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- PLD -->
+                        <div class="folder-item" onclick="toggleFolder('pld')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-pld"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">PLD</span>
+                            </div>
+                            <span class="folder-count">4</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Condiciones de Pago -->
+                        <div class="folder-item" onclick="toggleFolder('condiciones-pago')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-condiciones-pago"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Condiciones de Pago</span>
+                            </div>
+                            <span class="folder-count">1</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Programa de Lealtad -->
+                        <div class="folder-item" onclick="toggleFolder('programa-lealtad')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-programa-lealtad"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Programa de Lealtad</span>
+                            </div>
+                            <span class="folder-count">1</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Extensión de Garantía -->
+                        <div class="folder-item" onclick="toggleFolder('extension-garantia')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-extension-garantia"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Extensión de Garantía</span>
+                            </div>
+                            <span class="folder-count">5</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Políticas -->
+                        <div class="folder-item" onclick="toggleFolder('politicas')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-politicas"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Políticas</span>
+                            </div>
+                            <span class="folder-count">12</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Solicitudes financieras -->
+                        <div class="folder-item" onclick="toggleFolder('solicitudes-financieras')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-solicitudes-financieras"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Solicitudes financieras</span>
+                            </div>
+                            <span class="folder-count">19</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Manuales -->
+                        <div class="folder-item">
+                            <div class="folder-content">
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Manuales</span>
+                            </div>
+                            <span class="folder-count">0</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Fiscal -->
+                        <div class="folder-item" onclick="toggleFolder('fiscal')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-fiscal"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Fiscal</span>
+                            </div>
+                            <span class="folder-count">4</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Comparativas -->
+                        <div class="folder-item" onclick="toggleFolder('comparativas')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-comparativas"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Comparativas</span>
+                            </div>
+                            <span class="folder-count">10</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Fichas Técnicas -->
+                        <div class="folder-item" onclick="toggleFolder('fichas-tecnicas')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-fichas-tecnicas"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Fichas Técnicas</span>
+                            </div>
+                            <span class="folder-count">13</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Rendimiento Combustible -->
+                        <div class="folder-item" onclick="toggleFolder('rendimiento-combustible')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-rendimiento-combustible"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Rendimiento Combustible</span>
+                            </div>
+                            <span class="folder-count">1</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Menu de Servicio -->
+                        <div class="folder-item" onclick="toggleFolder('menu-servicio')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-menu-servicio"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Menu de Servicio</span>
+                            </div>
+                            <span class="folder-count">1</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Oferta Comercial -->
+                        <div class="folder-item" onclick="toggleFolder('oferta-comercial')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-oferta-comercial"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Oferta Comercial</span>
+                            </div>
+                            <span class="folder-count">9</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+
+                        <!-- Manual de Usuario Sygo -->
+                        <div class="folder-item" onclick="toggleFolder('manual-usuario-sygo')">
+                            <div class="folder-content">
+                                <i class="bi bi-chevron-right chevron" id="chevron-manual-usuario-sygo"></i>
+                                <i class="bi bi-folder-fill folder-icon"></i>
+                                <span class="folder-name">Manual de Usuario Sygo</span>
+                            </div>
+                            <span class="folder-count">2</span>
+                            <i class="bi bi-three-dots folder-actions"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Búsqueda de Contactos -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Contacto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Buscar por nombre, teléfono o correo...">
+                            <button class="btn btn-primary" type="button" onclick="searchContacts()">
+                                <i class="bi bi-search me-1"></i>Buscar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="searchResults">
+                        <div class="text-center text-muted py-5">
+                            <i class="bi bi-search fs-1"></i>
+                            <p class="mt-3">Ingresa un nombre, teléfono o correo para buscar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn-floating-search" data-bs-toggle="modal" data-bs-target="#searchModal" title="Buscar contacto">
+        <i class="bi bi-search"></i>
+    </button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const contactos = [
+            { id: 1, nombre: "María González", telefono: "222-123-4567", email: "maria.gonzalez@email.com", ciudad: "Puebla", interes: "Honda CR-V Touring 2024", asesor: "Juan Pérez" },
+            { id: 2, nombre: "Carlos Ramírez", telefono: "222-234-5678", email: "carlos.ramirez@email.com", ciudad: "Puebla", interes: "KIA Sportage EX 2024", asesor: "Juan Pérez" },
+            { id: 3, nombre: "Ana Martínez", telefono: "555-345-6789", email: "ana.martinez@email.com", ciudad: "CDMX", interes: "Mazda CX-5 Grand Touring 2024", asesor: "María López" },
+            { id: 4, nombre: "Pedro López", telefono: "333-456-7890", email: "pedro.lopez@email.com", ciudad: "Guadalajara", interes: "Toyota RAV4 Limited 2024", asesor: "Carlos Gómez" },
+            { id: 5, nombre: "Laura Sánchez", telefono: "222-567-8901", email: "laura.sanchez@email.com", ciudad: "Puebla", interes: "Changan CS35 Plus Elite 2024", asesor: "Juan Pérez" },
+            { id: 6, nombre: "Roberto Díaz", telefono: "555-678-9012", email: "roberto.diaz@email.com", ciudad: "CDMX", interes: "Nissan Kicks Exclusive 2024", asesor: "María López" }
+        ];
+
+        function searchContacts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('searchResults');
+            if (searchTerm === '') {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-search fs-1"></i><p class="mt-3">Ingresa un nombre, teléfono o correo para buscar</p></div>';
+                return;
+            }
+            const results = contactos.filter(contacto => contacto.nombre.toLowerCase().includes(searchTerm) || contacto.telefono.includes(searchTerm) || contacto.email.toLowerCase().includes(searchTerm));
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-inbox fs-1"></i><p class="mt-3">No se encontraron contactos</p></div>';
+                return;
+            }
+            let html = '<div class="table-responsive"><table class="table table-hover"><thead class="table-light"><tr><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Ciudad</th><th>Interés</th><th>Asesor</th><th>Acción</th></tr></thead><tbody>';
+            results.forEach(contacto => {
+                html += '<tr><td><strong>' + contacto.nombre + '</strong></td><td><i class="bi bi-telephone me-1"></i>' + contacto.telefono + '</td><td><i class="bi bi-envelope me-1"></i>' + contacto.email + '</td><td><i class="bi bi-geo-alt me-1"></i>' + contacto.ciudad + '</td><td><small>' + contacto.interes + '</small></td><td><small>' + contacto.asesor + '</small></td><td><a href="bitacora-contacto.html?contacto=' + contacto.id + '" class="btn btn-sm btn-primary"><i class="bi bi-journal-text me-1"></i>Ver Bitácora</a></td></tr>';
+            });
+            html += '</tbody></table></div>';
+            resultsDiv.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') { searchContacts(); }
+                });
+            }
+        });
+
+        // Toggle folder expand/collapse
+        function toggleFolder(folderId) {
+            const folder = document.getElementById(folderId);
+            const chevron = document.getElementById('chevron-' + folderId);
+
+            if (folder.classList.contains('show')) {
+                folder.classList.remove('show');
+                if (chevron) chevron.classList.remove('rotated');
+            } else {
+                folder.classList.add('show');
+                if (chevron) chevron.classList.add('rotated');
+            }
+        }
+    </script>
+</body>
+</html>
